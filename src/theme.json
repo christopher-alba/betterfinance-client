@@ -1,0 +1,16 @@
+{
+    "light": {
+        "name": "light",
+        "colors": {
+            "primary": "white",
+            "secondary": "black"
+        }
+    },
+    "dark": {
+        "name": "dark",
+        "colors": {
+            "primary": "black",
+            "secondary": "white"
+        }
+    }
+}
