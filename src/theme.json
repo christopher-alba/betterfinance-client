@@ -3,14 +3,20 @@
         "name": "light",
         "colors": {
             "primary": "white",
-            "secondary": "black"
+            "secondary": "#434343",
+            "darkGreen": "#0b6363",
+            "lightGreen": "#77FFB6",
+            "brightGreen": "#06F977"
         }
     },
     "dark": {
         "name": "dark",
         "colors": {
-            "primary": "black",
-            "secondary": "white"
+            "primary": "#434343",
+            "secondary": "white",
+            "darkGreen": "#0b6363",
+            "lightGreen": "#77FFB6",
+            "brightGreen": "#06F977"
         }
     }
 }
