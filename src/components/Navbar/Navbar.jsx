@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Dropdown, Icon, Loader} from "semantic-ui-react";
+import { Button, Dropdown, Icon, Loader } from "semantic-ui-react";
 import Login from "../Modals/Login/Login";
 import { useQuery } from "@apollo/client";
 import { AUTHENTICATE } from "../../graphql/queries";
@@ -16,14 +16,22 @@ import {
   NavbarMenu,
   WaitingDivText,
   LoadingWrapper,
+  HomeHeading,
+  ToolsTrigger,
 } from "./styled";
 import { Container } from "../Container";
 import Register from "../Modals/Register/Register";
 import useWindowWidth from "../../hooks/useWindowWidth";
+import { Link } from "react-router-dom";
 
 const options = [
-  { icon: "user", text: "Profile" },
-  { icon: "settings", text: "Settings" },
+  {
+    icon: "user",
+    text: "Profile",
+    onClick: () => {
+      window.history.pushState(undefined, "Profile", "/profile");
+    },
+  },
   {
     icon: "logout",
     text: "Logout",
@@ -33,13 +41,36 @@ const options = [
     },
   },
 ];
+const toolsOptions = [
+  {
+    icon: "angle double up",
+    text: "Incomes Manager",
+    onClick: () => {
+      window.history.pushState(undefined, "Income", "/incomes");
+    },
+  },
+  {
+    icon: "angle double down",
+    text: "Expenses Manager",
+    onClick: () => {
+      window.history.pushState(undefined, "Expense", "/expenses");
+    },
+  },
+  {
+    icon: "dollar",
+    text: "Goals Manager",
+    onClick: () => {
+      window.history.pushState(undefined, "Goals", "/goals");
+    },
+  },
+];
 
 const Navbar = ({ themes, setTheme, currentTheme }) => {
   const { data, loading } = useQuery(AUTHENTICATE);
   const [menu, setMenu] = useState(false);
   let windowWidth = useWindowWidth();
 
-  if (windowWidth > 1000) {
+  if (windowWidth > 1050) {
     return (
       <NavbarWrapper>
         <Container flex justifyContent="space-between" alignItems="center">
@@ -49,6 +80,14 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
               <NavbarBrandBetter>BETTER</NavbarBrandBetter>
               <NavbarBrandFinance>FINANCE</NavbarBrandFinance>
             </NavbarBrandWrapper>
+            <Link to="/" style={{ marginRight: 20 }}>
+              <HomeHeading>Home</HomeHeading>
+            </Link>
+            <Dropdown
+              style={{ color: "white" }}
+              trigger={<ToolsTrigger>Tools</ToolsTrigger>}
+              options={toolsOptions}
+            />
           </NavbarLeft>
           <NavbarRight>
             <Button
@@ -132,6 +171,38 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
         {menu && (
           <NavbarMenu>
             <Container flex column>
+              <Link to="/">
+                <Button
+                  icon
+                  inverted
+                  basic
+                  labelPosition="right"
+                  style={{ width: "100%", marginTop: 50 }}
+                >
+                  <Icon name="home" />
+                  Home
+                </Button>
+              </Link>
+              <Button.Group
+                inverted
+                basic
+                style={{
+                  border: "none",
+                  marginTop: 10,
+                  marginBottom: 50,
+                }}
+              >
+                <Dropdown
+                  className="button icon"
+                  floating
+                  options={toolsOptions}
+                  text="Tools"
+                  fluid
+                  style={{
+                    border: "none",
+                  }}
+                />
+              </Button.Group>
               <Button
                 icon
                 inverted

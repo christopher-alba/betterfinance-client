@@ -17,6 +17,7 @@ export const NavbarWrapper = styled("div")`
 export const NavbarBrandWrapper = styled("div")`
   display: flex;
   align-items: center;
+  margin-right: 40px;
 `;
 
 export const NavbarBrandBetter = styled("h1")`
@@ -51,11 +52,30 @@ export const NavbarBrandLogo = styled(mySVG)`
 export const NavbarLeft = styled("div")`
   display: flex;
   flex-wrap: nowrap;
+  align-items: center;
 `;
 export const NavbarRight = styled("div")`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+`;
+
+export const HomeHeading = styled("h3")`
+  color: white;
+  text-transform: uppercase;
+  &:hover {
+    color: ${({ theme }) => theme.colors.lightGreen};
+  }
+`;
+
+export const ToolsTrigger = styled("span")`
+  font-size: 1.28571429rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  &:hover {
+    color: ${({ theme }) => theme.colors.lightGreen};
+  }
 `;
 
 export const WaitingDiv = styled("div")`
@@ -87,7 +107,7 @@ export const WaitingDiv = styled("div")`
     }
   }
 
-  @media (min-width: 1000px) {
+  @media (min-width: 1050px) {
     width: 300px;
   }
 `;

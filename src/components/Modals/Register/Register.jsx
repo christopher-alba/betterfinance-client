@@ -25,7 +25,7 @@ const Register = () => {
         icon
         labelPosition="right"
         onClick={handleOpen}
-        style={{ marginRight: windowWidth <= 1000 ? 0 : "3.5px" , marginTop: windowWidth <= 1000 ? 10 : 0 }}
+        style={{ marginRight: windowWidth <= 1050 ? 0 : "3.5px" , marginTop: windowWidth <= 1050 ? 10 : 0 }}
       >
         <Icon name="signup" />
         Register
