@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { Button, Modal } from "semantic-ui-react";
+import { Button, Icon, Modal } from "semantic-ui-react";
 import { REGISTER } from "../../../graphql/mutations";
+import useWindowWidth from "../../../hooks/useWindowWidth";
 import { ModalDiv } from "./styled";
 
 const Register = () => {
@@ -15,12 +16,21 @@ const Register = () => {
   const handleClose = () => setOpen(false);
 
   const [register, { loading }] = useMutation(REGISTER);
-
+  let windowWidth = useWindowWidth();
   return (
     <>
-      <Button inverted basic onClick={handleOpen}>
+      <Button
+        inverted
+        basic
+        icon
+        labelPosition="right"
+        onClick={handleOpen}
+        style={{ marginRight: windowWidth <= 1000 ? 0 : "3.5px" , marginTop: windowWidth <= 1000 ? 10 : 0 }}
+      >
+        <Icon name="signup" />
         Register
       </Button>
+
       <Modal
         open={open}
         onClose={handleClose}
