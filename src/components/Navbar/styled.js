@@ -1,3 +1,4 @@
+import { Header } from "semantic-ui-react";
 import styled from "styled-components";
 import { ReactComponent as mySVG } from "../../svg/logo.svg";
 
@@ -6,10 +7,12 @@ export const NavbarWrapper = styled("div")`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   top: 0;
+  transition: all 500ms ease;
   left: 0;
-  z-index: 999;
+  opacity: 0;
+  z-index: 0;
   background: ${({ theme }) => theme.colors.darkGreen};
   padding: 30px 0;
 `;
@@ -70,7 +73,7 @@ export const HomeHeading = styled("h3")`
 
 export const ToolsTrigger = styled("span")`
   font-size: 1.28571429rem;
-  font-weight: bold;
+  font-weight: 700;
   text-transform: uppercase;
   color: white;
   &:hover {
@@ -136,4 +139,18 @@ export const LoadingWrapper = styled("div")`
   margin-top: 0;
   position: relative;
   background: rgba(0, 0, 0, 0.05);
+`;
+
+export const ToggleNav = styled(Header)`
+  font-size: 2rem !important;
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  opacity: 0;
+  transition: 1000ms ease all;
+  color: ${({ theme }) => theme.colors.secondary};
+  z-index: 10;
+  @media (max-width: 1050px) {
+    font-size: 1.25rem !important;
+  }
 `;

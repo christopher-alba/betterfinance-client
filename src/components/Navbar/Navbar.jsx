@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Icon, Loader } from "semantic-ui-react";
 import Login from "../Modals/Login/Login";
 import { useQuery } from "@apollo/client";
@@ -18,6 +18,7 @@ import {
   LoadingWrapper,
   HomeHeading,
   ToolsTrigger,
+  ToggleNav,
 } from "./styled";
 import { Container } from "../Container";
 import Register from "../Modals/Register/Register";
@@ -68,141 +69,54 @@ const toolsOptions = [
 const Navbar = ({ themes, setTheme, currentTheme }) => {
   const { data, loading } = useQuery(AUTHENTICATE);
   const [menu, setMenu] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
   let windowWidth = useWindowWidth();
+
+  // new useEffect:
+  useEffect(() => {
+    // new function:
+    const handleScroll = () => {
+      if (navVisible) {
+        setNavVisible(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [navVisible]);
 
   if (windowWidth > 1050) {
     return (
-      <NavbarWrapper>
-        <Container flex justifyContent="space-between" alignItems="center">
-          <NavbarLeft>
-            <NavbarBrandWrapper>
-              <NavbarBrandLogo />
-              <NavbarBrandBetter>BETTER</NavbarBrandBetter>
-              <NavbarBrandFinance>FINANCE</NavbarBrandFinance>
-            </NavbarBrandWrapper>
-            <Link to="/" style={{ marginRight: 20 }}>
-              <HomeHeading>Home</HomeHeading>
-            </Link>
-            <Dropdown
-              style={{ color: "white" }}
-              trigger={<ToolsTrigger>Tools</ToolsTrigger>}
-              options={toolsOptions}
-            />
-          </NavbarLeft>
-          <NavbarRight>
-            <Button
-              icon
-              inverted
-              basic
-              labelPosition="right"
-              onClick={() => {
-                currentTheme.name === "light"
-                  ? setTheme(themes.dark)
-                  : setTheme(themes.light);
-              }}
-            >
-              {currentTheme.name === "light" ? (
-                <Icon name="moon" />
-              ) : (
-                <Icon name="sun" />
-              )}
-              {currentTheme.name === "light" ? "Dark" : "Light"}
-            </Button>
-            {!loading ? (
-              <AuthButtons>
-                <Register />
-                {data ? (
-                  <>
-                    <Button.Group
-                      inverted
-                      basic
-                      style={{ border: "none", width: 200 }}
-                    >
-                      <Dropdown
-                        className="button icon"
-                        floating
-                        options={options}
-                        text={`Logged in as ${data.me.username}`}
-                        fluid
-                      />
-                    </Button.Group>
-                  </>
-                ) : (
-                  <Login />
-                )}
-              </AuthButtons>
-            ) : (
-              <WaitingDiv>
-                <WaitingDivText>Waiting for Server</WaitingDivText>
-                <LoadingWrapper>
-                  <Loader inverted active={!loading} size="tiny"></Loader>
-                </LoadingWrapper>
-              </WaitingDiv>
-            )}
-          </NavbarRight>
-        </Container>
-      </NavbarWrapper>
-    );
-  } else {
-    return (
-      <NavbarWrapper>
-        <Container flex justifyContent="space-between" alignItems="center">
-          <NavbarLeft>
-            <NavbarBrandWrapper>
-              <NavbarBrandLogo />
-              <NavbarBrandBetter>BETTER</NavbarBrandBetter>
-              <NavbarBrandFinance>FINANCE</NavbarBrandFinance>
-            </NavbarBrandWrapper>
-          </NavbarLeft>
-          <NavbarRight>
-            <Button
-              icon
-              inverted
-              basic
-              style={{ marginRight: 0 }}
-              onClick={() => {
-                setMenu(!menu);
-              }}
-            >
-              <Icon name="bars" />
-            </Button>
-          </NavbarRight>
-        </Container>
-        {menu && (
-          <NavbarMenu>
-            <Container flex column>
-              <Link to="/">
-                <Button
-                  icon
-                  inverted
-                  basic
-                  labelPosition="right"
-                  style={{ width: "100%", marginTop: 50 }}
-                >
-                  <Icon name="home" />
-                  Home
-                </Button>
+      <>
+        <ToggleNav
+          as="h4"
+          style={{ position: "fixed", top: 0, opacity: navVisible ? 0 : 1 }}
+          onMouseOver={() => {
+            setNavVisible(true);
+          }}
+        >
+          <Icon name="chevron down" />
+        </ToggleNav>
+
+        <NavbarWrapper
+          style={{ opacity: navVisible ? 1 : 0, zIndex: navVisible ? 999 : 0 }}
+        >
+          <Container flex justifyContent="space-between" alignItems="center">
+            <NavbarLeft>
+              <NavbarBrandWrapper>
+                <NavbarBrandLogo />
+                <NavbarBrandBetter>BETTER</NavbarBrandBetter>
+                <NavbarBrandFinance>FINANCE</NavbarBrandFinance>
+              </NavbarBrandWrapper>
+              <Link to="/" style={{ marginRight: 20 }}>
+                <HomeHeading>Home</HomeHeading>
               </Link>
-              <Button.Group
-                inverted
-                basic
-                style={{
-                  border: "none",
-                  marginTop: 10,
-                  marginBottom: 50,
-                }}
-              >
-                <Dropdown
-                  className="button icon"
-                  floating
-                  options={toolsOptions}
-                  text="Tools"
-                  fluid
-                  style={{
-                    border: "none",
-                  }}
-                />
-              </Button.Group>
+              <Dropdown
+                style={{ color: "white" }}
+                trigger={<ToolsTrigger>Tools</ToolsTrigger>}
+                options={toolsOptions}
+              />
+            </NavbarLeft>
+            <NavbarRight>
               <Button
                 icon
                 inverted
@@ -213,7 +127,6 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                     ? setTheme(themes.dark)
                     : setTheme(themes.light);
                 }}
-                style={{ marginRight: 0, marginTop: 10 }}
               >
                 {currentTheme.name === "light" ? (
                   <Icon name="moon" />
@@ -223,17 +136,14 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                 {currentTheme.name === "light" ? "Dark" : "Light"}
               </Button>
               {!loading ? (
-                <>
+                <AuthButtons>
                   <Register />
                   {data ? (
                     <>
                       <Button.Group
                         inverted
                         basic
-                        style={{
-                          border: "none",
-                          marginTop: 10,
-                        }}
+                        style={{ border: "none", width: 200 }}
                       >
                         <Dropdown
                           className="button icon"
@@ -247,19 +157,150 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                   ) : (
                     <Login />
                   )}
-                </>
+                </AuthButtons>
               ) : (
-                <WaitingDiv style={{ marginTop: 10 }}>
+                <WaitingDiv>
                   <WaitingDivText>Waiting for Server</WaitingDivText>
                   <LoadingWrapper>
                     <Loader inverted active={!loading} size="tiny"></Loader>
                   </LoadingWrapper>
                 </WaitingDiv>
               )}
-            </Container>
-          </NavbarMenu>
-        )}
-      </NavbarWrapper>
+            </NavbarRight>
+          </Container>
+        </NavbarWrapper>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <ToggleNav
+          as="h4"
+          style={{ position: "fixed", top: 0, opacity: navVisible ? 0 : 1 }}
+          onMouseOver={() => {
+            setNavVisible(true);
+          }}
+        >
+          <Icon name="chevron down" />
+        </ToggleNav>
+        <NavbarWrapper
+          style={{ opacity: navVisible ? 1 : 0, zIndex: navVisible ? 999 : 0 }}
+        >
+          <Container flex justifyContent="space-between" alignItems="center">
+            <NavbarLeft>
+              <NavbarBrandWrapper>
+                <NavbarBrandLogo />
+                <NavbarBrandBetter>BETTER</NavbarBrandBetter>
+                <NavbarBrandFinance>FINANCE</NavbarBrandFinance>
+              </NavbarBrandWrapper>
+            </NavbarLeft>
+            <NavbarRight>
+              <Button
+                icon
+                inverted
+                basic
+                style={{ marginRight: 0 }}
+                onClick={() => {
+                  setMenu(!menu);
+                }}
+              >
+                <Icon name="bars" />
+              </Button>
+            </NavbarRight>
+          </Container>
+          {menu && (
+            <NavbarMenu>
+              <Container flex column>
+                <Link to="/">
+                  <Button
+                    icon
+                    inverted
+                    basic
+                    labelPosition="right"
+                    style={{ width: "100%", marginTop: 50 }}
+                  >
+                    <Icon name="home" />
+                    Home
+                  </Button>
+                </Link>
+                <Button.Group
+                  inverted
+                  basic
+                  style={{
+                    border: "none",
+                    marginTop: 10,
+                    marginBottom: 50,
+                  }}
+                >
+                  <Dropdown
+                    className="button icon"
+                    floating
+                    options={toolsOptions}
+                    text="Tools"
+                    fluid
+                    style={{
+                      border: "none",
+                    }}
+                  />
+                </Button.Group>
+                <Button
+                  icon
+                  inverted
+                  basic
+                  labelPosition="right"
+                  onClick={() => {
+                    currentTheme.name === "light"
+                      ? setTheme(themes.dark)
+                      : setTheme(themes.light);
+                  }}
+                  style={{ marginRight: 0, marginTop: 10 }}
+                >
+                  {currentTheme.name === "light" ? (
+                    <Icon name="moon" />
+                  ) : (
+                    <Icon name="sun" />
+                  )}
+                  {currentTheme.name === "light" ? "Dark" : "Light"}
+                </Button>
+                {!loading ? (
+                  <>
+                    <Register />
+                    {data ? (
+                      <>
+                        <Button.Group
+                          inverted
+                          basic
+                          style={{
+                            border: "none",
+                            marginTop: 10,
+                          }}
+                        >
+                          <Dropdown
+                            className="button icon"
+                            floating
+                            options={options}
+                            text={`Logged in as ${data.me.username}`}
+                            fluid
+                          />
+                        </Button.Group>
+                      </>
+                    ) : (
+                      <Login />
+                    )}
+                  </>
+                ) : (
+                  <WaitingDiv style={{ marginTop: 10 }}>
+                    <WaitingDivText>Waiting for Server</WaitingDivText>
+                    <LoadingWrapper>
+                      <Loader inverted active={!loading} size="tiny"></Loader>
+                    </LoadingWrapper>
+                  </WaitingDiv>
+                )}
+              </Container>
+            </NavbarMenu>
+          )}
+        </NavbarWrapper>
+      </>
     );
   }
 };
