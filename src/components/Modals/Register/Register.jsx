@@ -18,7 +18,9 @@ const Register = () => {
 
   return (
     <>
-      <Button onClick={handleOpen}>Register</Button>
+      <Button inverted basic onClick={handleOpen}>
+        Register
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}

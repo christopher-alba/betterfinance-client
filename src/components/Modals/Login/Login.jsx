@@ -19,7 +19,9 @@ const Login = () => {
 
   return (
     <>
-      <Button onClick={handleOpen}>Login</Button>
+      <Button inverted basic onClick={handleOpen}>
+        Login
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}

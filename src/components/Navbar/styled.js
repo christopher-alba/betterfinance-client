@@ -48,3 +48,36 @@ export const NavbarRight = styled("div")`
   display: flex;
   flex-wrap: nowrap;
 `;
+
+export const NavbarAuth = styled("div")`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid white;
+  border-radius: 0.28571429rem;
+  color: white;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 99, 99, 1) 0%,
+    rgba(9, 121, 93, 1) 35%,
+    rgba(0, 255, 196, 1) 100%
+  );
+  background-size: 300% 300%;
+  animation: gradient 5s ease infinite;
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+`;
+
+export const AuthButtons = styled("div")`
+  display:flex;
+  flex-wrap:nowrap;
+`;
