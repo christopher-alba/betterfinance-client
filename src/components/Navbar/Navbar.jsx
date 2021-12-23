@@ -26,24 +26,6 @@ import Register from "../Modals/Register/Register";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import { Link } from "react-router-dom";
 
-const options = [
-  {
-    icon: "user",
-    text: "Profile",
-    onClick: () => {
-      window.history.pushState(undefined, "Profile", "/profile");
-    },
-  },
-  {
-    icon: "logout",
-    text: "Logout",
-    onClick: () => {
-      window.localStorage.removeItem("authorization");
-      window.location.reload();
-    },
-  },
-];
-
 const Navbar = ({ themes, setTheme, currentTheme }) => {
   const { data, loading } = useQuery(AUTHENTICATE);
   const [menu, setMenu] = useState(false);
@@ -51,7 +33,23 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
   let windowWidth = useWindowWidth();
 
   const navigate = useNavigate();
-
+  const options = [
+    {
+      icon: "user",
+      text: "Profile",
+      onClick: () => {
+        navigate("/profile");
+      },
+    },
+    {
+      icon: "logout",
+      text: "Logout",
+      onClick: () => {
+        window.localStorage.removeItem("authorization");
+        window.location.reload();
+      },
+    },
+  ];
   const toolsOptions = [
     {
       icon: "angle double up",
