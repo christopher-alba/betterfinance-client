@@ -175,6 +175,7 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
     return (
       <>
         <ToggleNav
+          className="toggle-nav"
           as="h4"
           style={{ position: "fixed", top: 0, opacity: navVisible ? 0 : 1 }}
           onMouseOver={() => {
@@ -202,6 +203,16 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                 style={{ marginRight: 0 }}
                 onClick={() => {
                   setMenu(!menu);
+                  if(!menu){
+                    document.getElementsByClassName(
+                      "toggle-nav"
+                    )[0].style.height = "420px";
+                  } else {
+                    document.getElementsByClassName(
+                      "toggle-nav"
+                    )[0].style.height = "100px";
+                  }
+                  
                 }}
               >
                 <Icon name="bars" />

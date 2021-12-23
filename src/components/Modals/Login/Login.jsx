@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../../graphql/mutations";
 
-import { Button, Modal } from "semantic-ui-react";
+import { Button, Icon, Modal } from "semantic-ui-react";
 
-import { ModalDiv } from "./styled";
+import { ModalDiv, LoginButton } from "./styled";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -19,9 +19,16 @@ const Login = () => {
 
   return (
     <>
-      <Button inverted basic onClick={handleOpen}>
+      <LoginButton
+        icon
+        inverted
+        basic
+        onClick={handleOpen}
+        labelPosition="right"
+      >
         Login
-      </Button>
+        <Icon name="sign in"/>
+      </LoginButton>
       <Modal
         open={open}
         onClose={handleClose}
