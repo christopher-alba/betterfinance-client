@@ -7,6 +7,7 @@ import {
   BetterFutureHeader,
   BetterLifeHeader,
   Logo,
+  HeroText,
 } from "./styled";
 
 const Home = () => {
@@ -24,6 +25,8 @@ const Home = () => {
         <BetterFutureHeader>Better Future</BetterFutureHeader>
         <BetterMoneyHeader>Better Money</BetterMoneyHeader>
         <BetterFinanceHeader>Better Finance</BetterFinanceHeader>
+        <hr style={{ border: "1px solid white", width: "50%", margin: 30 }} />
+        <HeroText>Helping you manage your finances is our top priority</HeroText>
       </Container>
     </HeroDiv>
   );

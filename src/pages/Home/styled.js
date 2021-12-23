@@ -19,6 +19,9 @@ export const BetterFinanceHeader = styled("h1")`
   font-size: 3rem;
   text-transform: uppercase;
   margin: 0;
+  @media (max-width: 500px) {
+    font-size: 2.5rem;
+  }
 `;
 
 export const BetterMoneyHeader = styled("h1")`
@@ -26,6 +29,9 @@ export const BetterMoneyHeader = styled("h1")`
   font-size: 2.7rem;
   text-transform: uppercase;
   margin: 0;
+  @media (max-width: 500px) {
+    font-size: 2.2rem;
+  }
 `;
 
 export const BetterFutureHeader = styled("h1")`
@@ -33,6 +39,9 @@ export const BetterFutureHeader = styled("h1")`
   font-size: 2.4rem;
   text-transform: uppercase;
   margin: 0;
+  @media(max-width:500px){
+      font-size:1.9rem;
+  }
 `;
 
 export const BetterLifeHeader = styled("h1")`
@@ -40,6 +49,9 @@ export const BetterLifeHeader = styled("h1")`
   font-size: 2.1rem;
   text-transform: uppercase;
   margin: 0;
+  @media(max-width:500px){
+      font-size:1.6rem;
+  }
 `;
 
 export const Logo = styled(mySVG)`
@@ -48,5 +60,10 @@ export const Logo = styled(mySVG)`
   width: 80px;
   min-width: 40px;
   min-height: 40px;
-  margin-right: 10px;
+`;
+
+export const HeroText = styled("p")`
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.5rem;
 `;

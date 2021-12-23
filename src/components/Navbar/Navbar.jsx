@@ -57,21 +57,21 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
       icon: "angle double up",
       text: "Incomes Manager",
       onClick: () => {
-        navigate("/incomes")
+        navigate("/incomes");
       },
     },
     {
       icon: "angle double down",
       text: "Expenses Manager",
       onClick: () => {
-        navigate("/expenses")
+        navigate("/expenses");
       },
     },
     {
       icon: "dollar",
       text: "Goals Manager",
       onClick: () => {
-        navigate("/goals")
+        navigate("/goals");
       },
     },
   ];
@@ -114,7 +114,11 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                 <HomeHeading>Home</HomeHeading>
               </Link>
               <Dropdown
-                style={{ color: "white" }}
+                style={{
+                  color: "white",
+                  alignItems: "center",
+                  display: "flex",
+                }}
                 trigger={<ToolsTrigger>Tools</ToolsTrigger>}
                 options={toolsOptions}
               />
