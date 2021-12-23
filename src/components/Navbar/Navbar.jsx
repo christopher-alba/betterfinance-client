@@ -260,9 +260,13 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                   basic
                   labelPosition="right"
                   onClick={() => {
-                    currentTheme.name === "light"
-                      ? setTheme(themes.dark)
-                      : setTheme(themes.light);
+                    if(currentTheme.name === "light"){
+                      setTheme(themes.dark)
+                      localStorage.setItem("theme.colour", JSON.stringify(themes.dark))
+                    } else {
+                      setTheme(themes.light);
+                      localStorage.setItem("theme.colour", JSON.stringify(themes.light))
+                    }                 
                   }}
                   style={{ marginRight: 0, marginTop: 10 }}
                 >

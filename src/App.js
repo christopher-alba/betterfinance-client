@@ -7,7 +7,7 @@ import { GlobalStyle } from "./globalStyles";
 import { useState } from "react";
 
 const App = () => {
-  const [theme, setTheme] = useState(themes.dark);
+  const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("theme.colour")) || themes.dark);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
