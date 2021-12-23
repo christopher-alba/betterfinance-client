@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Dropdown, Icon, Loader } from "semantic-ui-react";
 import Login from "../Modals/Login/Login";
 import { useQuery } from "@apollo/client";
@@ -42,29 +43,6 @@ const options = [
     },
   },
 ];
-const toolsOptions = [
-  {
-    icon: "angle double up",
-    text: "Incomes Manager",
-    onClick: () => {
-      window.history.pushState(undefined, "Income", "/incomes");
-    },
-  },
-  {
-    icon: "angle double down",
-    text: "Expenses Manager",
-    onClick: () => {
-      window.history.pushState(undefined, "Expense", "/expenses");
-    },
-  },
-  {
-    icon: "dollar",
-    text: "Goals Manager",
-    onClick: () => {
-      window.history.pushState(undefined, "Goals", "/goals");
-    },
-  },
-];
 
 const Navbar = ({ themes, setTheme, currentTheme }) => {
   const { data, loading } = useQuery(AUTHENTICATE);
@@ -72,6 +50,31 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
   const [navVisible, setNavVisible] = useState(true);
   let windowWidth = useWindowWidth();
 
+  const navigate = useNavigate();
+
+  const toolsOptions = [
+    {
+      icon: "angle double up",
+      text: "Incomes Manager",
+      onClick: () => {
+        navigate("/incomes")
+      },
+    },
+    {
+      icon: "angle double down",
+      text: "Expenses Manager",
+      onClick: () => {
+        navigate("/expenses")
+      },
+    },
+    {
+      icon: "dollar",
+      text: "Goals Manager",
+      onClick: () => {
+        navigate("/goals")
+      },
+    },
+  ];
   // new useEffect:
   useEffect(() => {
     // new function:
@@ -123,13 +126,19 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                 basic
                 labelPosition="right"
                 onClick={() => {
-                  if(currentTheme.name === "light"){
-                    setTheme(themes.dark)
-                    localStorage.setItem("theme.colour", JSON.stringify(themes.dark))
+                  if (currentTheme.name === "light") {
+                    setTheme(themes.dark);
+                    localStorage.setItem(
+                      "theme.colour",
+                      JSON.stringify(themes.dark)
+                    );
                   } else {
                     setTheme(themes.light);
-                    localStorage.setItem("theme.colour", JSON.stringify(themes.light))
-                  }    
+                    localStorage.setItem(
+                      "theme.colour",
+                      JSON.stringify(themes.light)
+                    );
+                  }
                 }}
               >
                 {currentTheme.name === "light" ? (
@@ -207,7 +216,7 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                 style={{ marginRight: 0 }}
                 onClick={() => {
                   setMenu(!menu);
-                  if(!menu){
+                  if (!menu) {
                     document.getElementsByClassName(
                       "toggle-nav"
                     )[0].style.height = "420px";
@@ -216,7 +225,6 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                       "toggle-nav"
                     )[0].style.height = "100px";
                   }
-                  
                 }}
               >
                 <Icon name="bars" />
@@ -264,13 +272,19 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                   basic
                   labelPosition="right"
                   onClick={() => {
-                    if(currentTheme.name === "light"){
-                      setTheme(themes.dark)
-                      localStorage.setItem("theme.colour", JSON.stringify(themes.dark))
+                    if (currentTheme.name === "light") {
+                      setTheme(themes.dark);
+                      localStorage.setItem(
+                        "theme.colour",
+                        JSON.stringify(themes.dark)
+                      );
                     } else {
                       setTheme(themes.light);
-                      localStorage.setItem("theme.colour", JSON.stringify(themes.light))
-                    }                 
+                      localStorage.setItem(
+                        "theme.colour",
+                        JSON.stringify(themes.light)
+                      );
+                    }
                   }}
                   style={{ marginRight: 0, marginTop: 10 }}
                 >

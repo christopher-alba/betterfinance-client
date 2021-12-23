@@ -9,4 +9,5 @@ export const Container = styled("div")`
   align-items: ${({ alignItems }) =>
     alignItems !== undefined ? alignItems : ""};
   flex-direction: ${({ column }) => (column ? "column" : "")};
+  text-align: ${({ textAlign }) => (textAlign !== undefined ? textAlign : "")};
 `;

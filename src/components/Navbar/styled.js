@@ -21,6 +21,9 @@ export const NavbarBrandWrapper = styled("div")`
   display: flex;
   align-items: center;
   margin-right: 40px;
+  @media(max-width:500px){
+    margin-right:20px;
+  }
 `;
 
 export const NavbarBrandBetter = styled("h1")`
