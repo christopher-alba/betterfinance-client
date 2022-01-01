@@ -111,15 +111,17 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
               <Link to="/" style={{ marginRight: 20 }}>
                 <HomeHeading>Home</HomeHeading>
               </Link>
-              <Dropdown
-                style={{
-                  color: "white",
-                  alignItems: "center",
-                  display: "flex",
-                }}
-                trigger={<ToolsTrigger>Tools</ToolsTrigger>}
-                options={toolsOptions}
-              />
+              {data && (
+                <Dropdown
+                  style={{
+                    color: "white",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                  trigger={<ToolsTrigger>Tools</ToolsTrigger>}
+                  options={toolsOptions}
+                />
+              )}
             </NavbarLeft>
             <NavbarRight>
               <Button
@@ -248,26 +250,29 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
                     Home
                   </Button>
                 </Link>
-                <Button.Group
-                  inverted
-                  basic
-                  style={{
-                    border: "none",
-                    marginTop: 10,
-                    marginBottom: 50,
-                  }}
-                >
-                  <Dropdown
-                    className="button icon"
-                    floating
-                    options={toolsOptions}
-                    text="Tools"
-                    fluid
+                {data && (
+                  <Button.Group
+                    inverted
+                    basic
                     style={{
                       border: "none",
+                      marginTop: 10,
+                      marginBottom: 50,
                     }}
-                  />
-                </Button.Group>
+                  >
+                    <Dropdown
+                      className="button icon"
+                      floating
+                      options={toolsOptions}
+                      text="Tools"
+                      fluid
+                      style={{
+                        border: "none",
+                      }}
+                    />
+                  </Button.Group>
+                )}
+
                 <Button
                   icon
                   inverted

@@ -45,7 +45,7 @@ export const BetterFutureHeader = styled("h1")`
 `;
 
 export const BetterLifeHeader = styled("h1")`
-  color: ${({ theme }) => theme.colors.lightGreen};
+  color: ${({ theme }) => theme.colors.brightGreen};
   font-size: 2.1rem;
   text-transform: uppercase;
   margin: 0;
