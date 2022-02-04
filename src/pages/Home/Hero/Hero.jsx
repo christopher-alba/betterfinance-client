@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container } from "../../../components/Container";
 import {
   HeroDiv,
@@ -9,8 +9,10 @@ import {
   Logo,
   HeroText,
 } from "./styled";
+import { ThemeContext } from "styled-components";
 
 const Hero = () => {
+  const themeContext = useContext(ThemeContext);
   return (
     <HeroDiv>
       <Container
@@ -24,7 +26,12 @@ const Hero = () => {
         <BetterLifeHeader>Better Life</BetterLifeHeader>
         <BetterFutureHeader>Better Future</BetterFutureHeader>
         <BetterMoneyHeader>Better Money</BetterMoneyHeader>
-        <BetterFinanceHeader>Better Finance</BetterFinanceHeader>
+        <BetterFinanceHeader>
+          Better{" "}
+          <span style={{ color: themeContext.colors.brightGreen }}>
+            Finance
+          </span>
+        </BetterFinanceHeader>
         <hr style={{ border: "1px solid white", width: "50%", margin: 30 }} />
         <HeroText>
           Helping you manage your finances is our top priority

@@ -4,6 +4,7 @@
         "colors": {
             "primary": "white",
             "secondary": "#434343",
+            "tertiary": "#f0f0f0",
             "darkGreen": "#0b6363",
             "lightGreen": "#77FFB6",
             "brightGreen": "#06F977"
@@ -14,6 +15,7 @@
         "colors": {
             "primary": "#434343",
             "secondary": "white",
+            "tertiary": "#3D3D3D",
             "darkGreen": "#0b6363",
             "lightGreen": "#77FFB6",
             "brightGreen": "#06F977"

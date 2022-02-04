@@ -29,6 +29,7 @@ export const BetterMoneyHeader = styled("h1")`
   font-size: 2.7rem;
   text-transform: uppercase;
   margin: 0;
+  font-weight: 200;
   @media (max-width: 500px) {
     font-size: 2.2rem;
   }
@@ -38,19 +39,21 @@ export const BetterFutureHeader = styled("h1")`
   color: white;
   font-size: 2.4rem;
   text-transform: uppercase;
+  font-weight: 200;
   margin: 0;
-  @media(max-width:500px){
-      font-size:1.9rem;
+  @media (max-width: 500px) {
+    font-size: 1.9rem;
   }
 `;
 
 export const BetterLifeHeader = styled("h1")`
-  color: ${({ theme }) => theme.colors.brightGreen};
+  color: white;
   font-size: 2.1rem;
   text-transform: uppercase;
   margin: 0;
-  @media(max-width:500px){
-      font-size:1.6rem;
+  font-weight: 200;
+  @media (max-width: 500px) {
+    font-size: 1.6rem;
   }
 `;
 
