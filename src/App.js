@@ -9,6 +9,7 @@ import themes from "./theme.json";
 import { GlobalStyle } from "./globalStyles";
 import { useState } from "react";
 import PrivateRoute from "./components/PrivateRoute";
+import Unauthenticated from "./pages/Unauthenticated";
 
 const App = () => {
   const [theme, setTheme] = useState(
@@ -24,7 +25,7 @@ const App = () => {
           exact
           path="/incomes"
           element={
-            <PrivateRoute>
+            <PrivateRoute page="incomes">
               <Incomes />
             </PrivateRoute>
           }
@@ -33,7 +34,7 @@ const App = () => {
           exact
           path="/expenses"
           element={
-            <PrivateRoute>
+            <PrivateRoute page="expenses">
               <Expenses />
             </PrivateRoute>
           }
@@ -42,11 +43,12 @@ const App = () => {
           exact
           path="/goals"
           element={
-            <PrivateRoute>
+            <PrivateRoute page="goals">
               <Goals />
             </PrivateRoute>
           }
         />
+        <Route exact path="/unauthenticated" element={<Unauthenticated />} />
       </Routes>
     </ThemeProvider>
   );
