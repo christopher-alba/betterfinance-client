@@ -26,6 +26,14 @@ export const CREATEINCOME = gql`
   }
 `;
 
+export const UPDATEINCOME = gql`
+  mutation UpdateIncome($incomeObj: updateIncomeArgs!, $incomeID: String!) {
+    updateIncome(incomeObj: $incomeObj, incomeID: $incomeID) {
+      _id
+    }
+  }
+`;
+
 export const DELETEINCOME = gql`
   mutation DeleteIncome($incomeID: String!) {
     deleteIncome(incomeID: $incomeID)

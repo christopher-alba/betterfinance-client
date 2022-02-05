@@ -7,7 +7,7 @@ import { Title } from "../../components/Title";
 import { INCOMES } from "../../graphql/queries";
 import { MainDiv } from "./styled";
 import { Button, Checkbox, Icon, Table } from "semantic-ui-react";
-import { DELETEINCOME } from "../../graphql/mutations";
+import { DELETEINCOME, UPDATEINCOME } from "../../graphql/mutations";
 import CreateIncomeModal from "./CreateIncomeModal";
 
 const Incomes = () => {
@@ -20,6 +20,7 @@ const Incomes = () => {
     },
   });
   const [deleteIncome, { loading: deletingIncome }] = useMutation(DELETEINCOME);
+  const [updateIncome, { loading: updatingIncome }] = useMutation(UPDATEINCOME);
   if (loading) {
     return <Loading message="Loading Your Incomes..." />;
   }
@@ -50,7 +51,22 @@ const Incomes = () => {
                   onClick={() => setSelectedIncome(userIncome._id)}
                 >
                   <Table.Cell collapsing>
-                    <Checkbox slider checked={userIncome.active} />
+                    <Checkbox
+                      toggle
+                      disabled={updatingIncome}
+                      checked={userIncome.active}
+                      onClick={(evt, data) => {
+                        updateIncome({
+                          variables: {
+                            incomeObj: {
+                              active: data.checked,
+                            },
+                            incomeID: userIncome._id,
+                          },
+                          refetchQueries: [INCOMES],
+                        });
+                      }}
+                    />
                   </Table.Cell>
                   <Table.Cell>{userIncome.name}</Table.Cell>
                   <Table.Cell>${userIncome.amount}</Table.Cell>
