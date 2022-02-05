@@ -17,17 +17,16 @@ const PrivateRoute = ({ children, page }) => {
       userID: data?.me._id,
     },
   });
-  if (data === undefined) {
+  if (data === undefined && !authLoading && !profileLoading) {
     localStorage.setItem("page", page);
+    localStorage.removeItem("profileID");
   } else {
     localStorage.removeItem("page");
     localStorage.setItem("profileID", profileData?.getProfile._id);
   }
 
   if (authLoading || profileLoading) {
-    return (
-      <Loading message="Verifying that you are logged in ..."/>
-    );
+    return <Loading message="Verifying that you are logged in ..." />;
   }
   return data ? children : <Navigate to="/unauthenticated" />;
 };
