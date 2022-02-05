@@ -1,33 +1,111 @@
-import { useQuery } from "@apollo/client";
-import React from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useContext, useState } from "react";
+import { ThemeContext } from "styled-components";
+import Loading from "../../components/Loading";
+import { Container } from "../../components/Container";
+import { Title } from "../../components/Title";
 import { INCOMES } from "../../graphql/queries";
+import { MainDiv } from "./styled";
+import { Button, Checkbox, Icon, Table } from "semantic-ui-react";
+import { DELETEINCOME } from "../../graphql/mutations";
 
 const Incomes = () => {
+  const themeContext = useContext(ThemeContext);
+  const [selectedIncome, setSelectedIncome] = useState(undefined);
   const profileID = localStorage.getItem("profileID");
-  const { loading, error, data } = useQuery(INCOMES, {
+  const { loading, data } = useQuery(INCOMES, {
     variables: {
       profileID,
     },
   });
+  const [deleteIncome, { loading: deletingIncome }] = useMutation(DELETEINCOME);
   if (loading) {
-    return <h1>loading...</h1>;
-  }
-  if (error) {
-    return <h1>{error}</h1>;
+    return <Loading message="Loading Your Incomes..." />;
   }
   return (
-    <>
-      <h1>Incomes</h1>
-      {data?.getAllUserIncomes.map((userIncome) => {
-        return (
-          <div>
-            <p>{userIncome.name}</p>
-            <p>{userIncome.amount}</p>
-            <p>{userIncome.frequency}</p>
-          </div>
-        );
-      })}
-    </>
+    <MainDiv>
+      <Container>
+        <Title>Incomes</Title>
+        <Table
+          style={{ marginTop: "50px" }}
+          compact
+          celled
+          selectable
+          inverted={themeContext.name === "dark" ? true : false}
+        >
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Active</Table.HeaderCell>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Amount</Table.HeaderCell>
+              <Table.HeaderCell>Frequency</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {data?.getAllUserIncomes.map((userIncome) => {
+              return (
+                <Table.Row
+                  active={userIncome._id === selectedIncome}
+                  onClick={() => setSelectedIncome(userIncome._id)}
+                >
+                  <Table.Cell collapsing>
+                    <Checkbox slider checked={userIncome.active} />
+                  </Table.Cell>
+                  <Table.Cell>{userIncome.name}</Table.Cell>
+                  <Table.Cell>${userIncome.amount}</Table.Cell>
+                  <Table.Cell>{userIncome.frequency}</Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+          <Table.Footer fullWidth>
+            <Table.Row>
+              <Table.HeaderCell colSpan="4">
+                <Button
+                  floated="right"
+                  icon
+                  labelPosition="left"
+                  color="green"
+                  size="small"
+                >
+                  <Icon name="plus" /> Add Income
+                </Button>
+                {selectedIncome && (
+                  <>
+                    <Button
+                      size="small"
+                      onClick={() => setSelectedIncome(undefined)}
+                    >
+                      Deselect Income
+                    </Button>
+                    <Button icon size="small" color="blue" labelPosition="left">
+                      <Icon name="upload" /> Update Income
+                    </Button>
+                    <Button
+                      icon
+                      size="small"
+                      color="red"
+                      labelPosition="left"
+                      onClick={() => {
+                        deleteIncome({
+                          variables: {
+                            incomeID: selectedIncome,
+                          },
+                          refetchQueries: [INCOMES],
+                        });
+                      }}
+                    >
+                      <Icon name="close" />
+                      Remove Income
+                    </Button>
+                  </>
+                )}
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        </Table>
+      </Container>
+    </MainDiv>
   );
 };
 

@@ -4,7 +4,6 @@ import { Loader } from "semantic-ui-react";
 
 const Loading = ({ message }) => {
   const themeContext = useContext(ThemeContext);
-  console.log(themeContext);
   return (
     <div
       style={{
