@@ -7,7 +7,7 @@ import React from "react";
 import { AUTHENTICATE, PROFILEID } from "../graphql/queries";
 import { Navigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Loader } from "semantic-ui-react";
+import Loading from "./Loading";
 
 const PrivateRoute = ({ children, page }) => {
   // Add your own authentication on the below line.
@@ -26,19 +26,7 @@ const PrivateRoute = ({ children, page }) => {
 
   if (authLoading || profileLoading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          position: "relative",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-        }}
-      >
-        <Loader active inverted>
-          <h1>Verifying that you are logged in...</h1>
-        </Loader>
-      </div>
+      <Loading message="Verifying that you are logged in ..."/>
     );
   }
   return data ? children : <Navigate to="/unauthenticated" />;
