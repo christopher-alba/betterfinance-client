@@ -8,6 +8,7 @@ import { INCOMES } from "../../graphql/queries";
 import { MainDiv } from "./styled";
 import { Button, Checkbox, Icon, Table } from "semantic-ui-react";
 import { DELETEINCOME } from "../../graphql/mutations";
+import CreateIncomeModal from "./CreateIncomeModal";
 
 const Incomes = () => {
   const themeContext = useContext(ThemeContext);
@@ -61,15 +62,7 @@ const Incomes = () => {
           <Table.Footer fullWidth>
             <Table.Row>
               <Table.HeaderCell colSpan="4">
-                <Button
-                  floated="right"
-                  icon
-                  labelPosition="left"
-                  color="green"
-                  size="small"
-                >
-                  <Icon name="plus" /> Add Income
-                </Button>
+                <CreateIncomeModal profileID={profileID} />
                 {selectedIncome && (
                   <>
                     <Button
@@ -85,6 +78,8 @@ const Incomes = () => {
                       icon
                       size="small"
                       color="red"
+                      disabled={deletingIncome}
+                      loading={deletingIncome}
                       labelPosition="left"
                       onClick={() => {
                         deleteIncome({
@@ -92,6 +87,8 @@ const Incomes = () => {
                             incomeID: selectedIncome,
                           },
                           refetchQueries: [INCOMES],
+                        }).then((res) => {
+                          setSelectedIncome(undefined);
                         });
                       }}
                     >

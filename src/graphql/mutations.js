@@ -18,6 +18,14 @@ export const REGISTER = gql`
   }
 `;
 
+export const CREATEINCOME = gql`
+  mutation CreateIncome($income: createIncomeArgs!) {
+    createIncome(income: $income) {
+      _id
+    }
+  }
+`;
+
 export const DELETEINCOME = gql`
   mutation DeleteIncome($incomeID: String!) {
     deleteIncome(incomeID: $incomeID)
