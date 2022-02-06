@@ -9,7 +9,10 @@ import { BrowserRouter } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/",
+  uri:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:5000"
+      : "https://better-finance-server.herokuapp.com",
   cache: new InMemoryCache({
     addTypename: false,
   }),
@@ -19,11 +22,11 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ApolloProvider>,
+  <ApolloProvider client={client}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ApolloProvider>,
   document.getElementById("root")
 );
 
