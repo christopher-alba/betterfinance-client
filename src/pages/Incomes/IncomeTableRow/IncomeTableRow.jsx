@@ -9,7 +9,7 @@ const IncomeTableRow = ({ userIncome, selectedIncome, setSelectedIncome }) => {
   return (
     <Table.Row
       active={userIncome._id === selectedIncome}
-      onClick={() => setSelectedIncome(userIncome._id)}
+      onClick={() => setSelectedIncome(userIncome)}
     >
       <Table.Cell collapsing>
         <Checkbox

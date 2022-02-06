@@ -10,6 +10,7 @@ import { Button, Icon, Table } from "semantic-ui-react";
 import { DELETEINCOME } from "../../graphql/mutations";
 import CreateIncomeModal from "./CreateIncomeModal";
 import IncomeTableRow from "./IncomeTableRow";
+import UpdateIncomeModal from "./UpdateIncomeModal/UpdateIncomeModal";
 
 const Incomes = () => {
   const themeContext = useContext(ThemeContext);
@@ -48,7 +49,7 @@ const Incomes = () => {
               return (
                 <IncomeTableRow
                   userIncome={userIncome}
-                  selectedIncome={selectedIncome}
+                  selectedIncome={selectedIncome?._id}
                   setSelectedIncome={setSelectedIncome}
                 />
               );
@@ -66,9 +67,10 @@ const Incomes = () => {
                     >
                       Deselect Income
                     </Button>
-                    <Button icon size="small" color="blue" labelPosition="left">
-                      <Icon name="upload" /> Update Income
-                    </Button>
+                    <UpdateIncomeModal
+                      profileID={profileID}
+                      income={selectedIncome}
+                    />
                     <Button
                       icon
                       size="small"
@@ -79,7 +81,7 @@ const Incomes = () => {
                       onClick={() => {
                         deleteIncome({
                           variables: {
-                            incomeID: selectedIncome,
+                            incomeID: selectedIncome._id,
                           },
                           refetchQueries: [INCOMES],
                         }).then((res) => {
