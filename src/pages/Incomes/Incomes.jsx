@@ -9,6 +9,7 @@ import { MainDiv } from "./styled";
 import { Button, Checkbox, Icon, Table } from "semantic-ui-react";
 import { DELETEINCOME, UPDATEINCOME } from "../../graphql/mutations";
 import CreateIncomeModal from "./CreateIncomeModal";
+import IncomeTableRow from "./IncomeTableRow";
 
 const Incomes = () => {
   const themeContext = useContext(ThemeContext);
@@ -20,7 +21,6 @@ const Incomes = () => {
     },
   });
   const [deleteIncome, { loading: deletingIncome }] = useMutation(DELETEINCOME);
-  const [updateIncome, { loading: updatingIncome }] = useMutation(UPDATEINCOME);
   if (loading) {
     return <Loading message="Loading Your Incomes..." />;
   }
@@ -46,32 +46,11 @@ const Incomes = () => {
           <Table.Body>
             {data?.getAllUserIncomes.map((userIncome) => {
               return (
-                <Table.Row
-                  active={userIncome._id === selectedIncome}
-                  onClick={() => setSelectedIncome(userIncome._id)}
-                >
-                  <Table.Cell collapsing>
-                    <Checkbox
-                      toggle
-                      disabled={updatingIncome}
-                      checked={userIncome.active}
-                      onClick={(evt, data) => {
-                        updateIncome({
-                          variables: {
-                            incomeObj: {
-                              active: data.checked,
-                            },
-                            incomeID: userIncome._id,
-                          },
-                          refetchQueries: [INCOMES],
-                        });
-                      }}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>{userIncome.name}</Table.Cell>
-                  <Table.Cell>${userIncome.amount}</Table.Cell>
-                  <Table.Cell>{userIncome.frequency}</Table.Cell>
-                </Table.Row>
+                <IncomeTableRow
+                  userIncome={userIncome}
+                  selectedIncome={selectedIncome}
+                  setSelectedIncome={setSelectedIncome}
+                />
               );
             })}
           </Table.Body>
