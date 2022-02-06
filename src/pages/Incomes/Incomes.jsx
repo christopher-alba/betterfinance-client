@@ -6,8 +6,8 @@ import { Container } from "../../components/Container";
 import { Title } from "../../components/Title";
 import { INCOMES } from "../../graphql/queries";
 import { MainDiv } from "./styled";
-import { Button, Checkbox, Icon, Table } from "semantic-ui-react";
-import { DELETEINCOME, UPDATEINCOME } from "../../graphql/mutations";
+import { Button, Icon, Table } from "semantic-ui-react";
+import { DELETEINCOME } from "../../graphql/mutations";
 import CreateIncomeModal from "./CreateIncomeModal";
 import IncomeTableRow from "./IncomeTableRow";
 
