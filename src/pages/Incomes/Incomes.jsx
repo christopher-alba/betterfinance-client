@@ -42,6 +42,12 @@ const Incomes = () => {
   const windowWidth = useWindowWidth();
   const [deleteIncome, { loading: deletingIncome }] = useMutation(DELETEINCOME);
   useEffect(() => {
+    console.log(data?.getAllUserIncomes);
+    setSelectedIncome(
+      data?.getAllUserIncomes.find(
+        (income) => income._id === selectedIncome?._id
+      )
+    );
     setChartData(
       data?.getAllUserIncomes
         .filter((income) => income.active)
@@ -170,17 +176,15 @@ const Incomes = () => {
           return newIncomeObj;
         })
     );
-  }, [data, selectedFrequency]);
+  }, [data, selectedFrequency, selectedIncome]);
 
   const findLargestAmount = (chartData) => {
     let largestNumber = 0;
-    console.log(chartData);
     for (let i = 0; i < chartData?.length; i++) {
       if (largestNumber < parseFloat(chartData[i].amount)) {
         largestNumber = chartData[i].amount;
       }
     }
-    console.log(largestNumber);
     return largestNumber * 1.3;
   };
 
@@ -229,10 +233,7 @@ const Incomes = () => {
                     >
                       Deselect Income
                     </Button>
-                    <UpdateIncomeModal
-                      profileID={profileID}
-                      income={selectedIncome}
-                    />
+                    <UpdateIncomeModal income={selectedIncome} />
                     <Button
                       icon
                       size="small"
@@ -288,7 +289,7 @@ const Incomes = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <YAxis dataKey="name" type="category" />
               <XAxis type="number" domain={[0, findLargestAmount(chartData)]} />
-              <Tooltip contentStyle={{color:"black"}} />
+              <Tooltip contentStyle={{ color: "black" }} />
               <Legend />
               <Bar dataKey="amount" fill="#02b191" scale />
             </BarChart>

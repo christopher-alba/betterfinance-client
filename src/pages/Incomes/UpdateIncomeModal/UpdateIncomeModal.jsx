@@ -21,7 +21,7 @@ const frequencyOptions = [
   { key: "Yearly", value: "Yearly", text: "Yearly" },
 ];
 
-const UpdateIncomeModal = ({ profileID, income }) => {
+const UpdateIncomeModal = ({ income }) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(income.name);
   const [nameMaxLengthReached, setNameMaxLengthReached] = useState(false);
