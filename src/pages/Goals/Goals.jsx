@@ -33,7 +33,7 @@ const Goals = () => {
     },
   });
 
-  const [selectedFrequency, setSelectedFrequency] = useState("Yearly");
+  const [selectedFrequency] = useState("Yearly");
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [totalNetIncome, setTotalNetIncome] = useState(0);
