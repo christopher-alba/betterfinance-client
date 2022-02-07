@@ -194,7 +194,7 @@ const Expenses = () => {
   return (
     <MainDiv>
       <Container>
-        <Title>Incomes</Title>
+        <Title>Expenses</Title>
         <Table
           style={{ marginTop: "50px" }}
           compact
@@ -263,8 +263,8 @@ const Expenses = () => {
         </Table>
         <ChartDiv>
           <h1 style={{ color: "black" }}>
-            Your Incomes Visualised (All converted to {selectedFrequency}{" "}
-            income)
+            Your Expenses Visualised (All converted to {selectedFrequency}{" "}
+            expense)
           </h1>
           <Select
             options={frequencyOptions}
