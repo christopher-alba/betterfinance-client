@@ -166,8 +166,6 @@ const UpdateIncomeModal = ({ income }) => {
           <Button
             onClick={() => {
               setDisplayErrorMessage(false);
-              console.log(typeof amount);
-              console.log(parseFloat(amount));
               let hasErrors = false;
               if (!name) {
                 hasErrors = true;

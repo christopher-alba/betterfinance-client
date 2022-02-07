@@ -42,7 +42,6 @@ const Incomes = () => {
   const windowWidth = useWindowWidth();
   const [deleteIncome, { loading: deletingIncome }] = useMutation(DELETEINCOME);
   useEffect(() => {
-    console.log(data?.getAllUserIncomes);
     setSelectedIncome(
       data?.getAllUserIncomes.find(
         (income) => income._id === selectedIncome?._id
@@ -185,7 +184,7 @@ const Incomes = () => {
         largestNumber = chartData[i].amount;
       }
     }
-    return largestNumber * 1.3;
+    return Math.floor(largestNumber * 1.3);
   };
 
   if (loading) {
