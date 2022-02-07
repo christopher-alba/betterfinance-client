@@ -39,3 +39,25 @@ export const DELETEINCOME = gql`
     deleteIncome(incomeID: $incomeID)
   }
 `;
+
+export const CREATEEXPENSE = gql`
+  mutation CreateExpense($expense: createExpenseArgs!) {
+    createExpense(expense: $expense) {
+      _id
+    }
+  }
+`;
+
+export const UPDATEEXPENSE = gql`
+  mutation UpdateExpense($expenseObj: updateExpenseArgs!, $expenseID: String!) {
+    updateExpense(expenseObj: $expenseObj, expenseID: $expenseID) {
+      _id
+    }
+  }
+`;
+
+export const DELETEEXPENSE = gql`
+  mutation DeleteExpense($expenseID: String!) {
+    deleteExpense(expenseID: $expenseID)
+  }
+`;

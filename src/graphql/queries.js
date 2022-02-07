@@ -23,6 +23,20 @@ export const INCOMES = gql`
   }
 `;
 
+export const EXPENSES = gql`
+  query GetAllUserExpenses($profileID: ID!) {
+    getAllUserExpenses(profileID: $profileID) {
+      name
+      amount
+      frequency
+      active
+      profileID
+      _id
+    }
+  }
+`;
+
+
 export const PROFILEID = gql`
   query GetUserProfileID($userID: ID!) {
     getProfile(userID: $userID) {
