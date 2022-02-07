@@ -22,6 +22,7 @@ import {
   YAxis,
 } from "recharts";
 import useWindowWidth from "../../hooks/useWindowWidth";
+import { standardizeMoney } from "../../helpers";
 const frequencyOptions = [
   { key: "Daily", value: "Daily", text: "Daily" },
   { key: "Weekly", value: "Weekly", text: "Weekly" },
@@ -48,132 +49,10 @@ const Incomes = () => {
       )
     );
     setChartData(
-      data?.getAllUserIncomes
-        .filter((income) => income.active)
-        .map((income) => {
-          var newIncomeObj;
-          switch (selectedFrequency) {
-            case "Daily":
-              switch (income.frequency) {
-                case "Daily":
-                  return {
-                    ...income,
-                    amount: parseFloat(income.amount).toFixed(2),
-                  };
-                case "Weekly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) / 7).toFixed(2),
-                  };
-                  break;
-                case "Monthly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) / 30.5).toFixed(2),
-                  };
-                  break;
-                case "Yearly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) / 365).toFixed(2),
-                  };
-                  break;
-                default:
-                  break;
-              }
-              break;
-            case "Weekly":
-              switch (income.frequency) {
-                case "Daily":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) * 7).toFixed(2),
-                  };
-                  break;
-                case "Weekly":
-                  return {
-                    ...income,
-                    amount: parseFloat(income.amount).toFixed(2),
-                  };
-                case "Monthly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) / 4.34524).toFixed(2),
-                  };
-                  break;
-                case "Yearly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) / 52).toFixed(2),
-                  };
-                  break;
-                default:
-                  break;
-              }
-              break;
-            case "Monthly":
-              switch (income.frequency) {
-                case "Daily":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) * 30.5).toFixed(2),
-                  };
-                  break;
-                case "Weekly":
-                  return {
-                    ...income,
-                    amount: (parseFloat(income.amount) * 4.34524).toFixed(2),
-                  };
-                case "Monthly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: parseFloat(income.amount).toFixed(2),
-                  };
-                  break;
-                case "Yearly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) / 12).toFixed(2),
-                  };
-                  break;
-                default:
-                  break;
-              }
-              break;
-            case "Yearly":
-              switch (income.frequency) {
-                case "Daily":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) * 365).toFixed(2),
-                  };
-                  break;
-                case "Weekly":
-                  return {
-                    ...income,
-                    amount: (parseFloat(income.amount) * 52).toFixed(2),
-                  };
-                case "Monthly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: (parseFloat(income.amount) * 12).toFixed(2),
-                  };
-                  break;
-                case "Yearly":
-                  newIncomeObj = {
-                    ...income,
-                    amount: parseFloat(income.amount).toFixed(2),
-                  };
-                  break;
-                default:
-                  break;
-              }
-              break;
-            default:
-              break;
-          }
-          return newIncomeObj;
-        })
+      standardizeMoney(
+        data?.getAllUserIncomes.filter((income) => income.active),
+        selectedFrequency
+      )
     );
   }, [data, selectedFrequency, selectedIncome]);
 

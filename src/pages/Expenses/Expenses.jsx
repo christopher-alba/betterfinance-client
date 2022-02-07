@@ -22,6 +22,7 @@ import {
   YAxis,
 } from "recharts";
 import useWindowWidth from "../../hooks/useWindowWidth";
+import { standardizeMoney } from "../../helpers";
 const frequencyOptions = [
   { key: "Daily", value: "Daily", text: "Daily" },
   { key: "Weekly", value: "Weekly", text: "Weekly" },
@@ -49,132 +50,10 @@ const Expenses = () => {
       )
     );
     setChartData(
-      data?.getAllUserExpenses
-        .filter((expense) => expense.active)
-        .map((expense) => {
-          var newExpenseObj;
-          switch (selectedFrequency) {
-            case "Daily":
-              switch (expense.frequency) {
-                case "Daily":
-                  return {
-                    ...expense,
-                    amount: parseFloat(expense.amount).toFixed(2),
-                  };
-                case "Weekly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) / 7).toFixed(2),
-                  };
-                  break;
-                case "Monthly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) / 30.5).toFixed(2),
-                  };
-                  break;
-                case "Yearly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) / 365).toFixed(2),
-                  };
-                  break;
-                default:
-                  break;
-              }
-              break;
-            case "Weekly":
-              switch (expense.frequency) {
-                case "Daily":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) * 7).toFixed(2),
-                  };
-                  break;
-                case "Weekly":
-                  return {
-                    ...expense,
-                    amount: parseFloat(expense.amount).toFixed(2),
-                  };
-                case "Monthly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) / 4.34524).toFixed(2),
-                  };
-                  break;
-                case "Yearly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) / 52).toFixed(2),
-                  };
-                  break;
-                default:
-                  break;
-              }
-              break;
-            case "Monthly":
-              switch (expense.frequency) {
-                case "Daily":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) * 30.5).toFixed(2),
-                  };
-                  break;
-                case "Weekly":
-                  return {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) * 4.34524).toFixed(2),
-                  };
-                case "Monthly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: parseFloat(expense.amount).toFixed(2),
-                  };
-                  break;
-                case "Yearly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) / 12).toFixed(2),
-                  };
-                  break;
-                default:
-                  break;
-              }
-              break;
-            case "Yearly":
-              switch (expense.frequency) {
-                case "Daily":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) * 365).toFixed(2),
-                  };
-                  break;
-                case "Weekly":
-                  return {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) * 52).toFixed(2),
-                  };
-                case "Monthly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: (parseFloat(expense.amount) * 12).toFixed(2),
-                  };
-                  break;
-                case "Yearly":
-                  newExpenseObj = {
-                    ...expense,
-                    amount: parseFloat(expense.amount).toFixed(2),
-                  };
-                  break;
-                default:
-                  break;
-              }
-              break;
-            default:
-              break;
-          }
-          return newExpenseObj;
-        })
+      standardizeMoney(
+        data?.getAllUserExpenses.filter((expense) => expense.active),
+        selectedFrequency
+      )
     );
   }, [data, selectedFrequency, selectedExpense]);
 
