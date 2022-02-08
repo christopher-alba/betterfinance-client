@@ -3,6 +3,9 @@ import styled from "styled-components";
 
 export const ModalDiv = styled("div")`
   padding: 30px;
+  display:flex;
+  flex-direction:column;
+  color: black;
 `;
 
 export const LoginButton = styled(Button)`

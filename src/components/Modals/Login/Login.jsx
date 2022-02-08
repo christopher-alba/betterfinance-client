@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../../graphql/mutations";
 
-import { Button, Icon, Modal } from "semantic-ui-react";
+import { Button, Icon, Input, Message, Modal } from "semantic-ui-react";
 
 import { ModalDiv, LoginButton } from "./styled";
 
@@ -27,7 +27,7 @@ const Login = () => {
         labelPosition="right"
       >
         Login
-        <Icon name="sign in"/>
+        <Icon name="sign in" />
       </LoginButton>
       <Modal
         open={open}
@@ -35,21 +35,36 @@ const Login = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <ModalDiv>
-          <input
-            type="text"
-            placeholder="username"
-            onChange={(evt) => {
-              setUsername(evt.target.value);
-            }}
-          />
-          <input
-            type="password"
-            placeholder="password"
-            onChange={(evt) => {
-              setPassword(evt.target.value);
-            }}
-          />
+        <Modal.Header>Login</Modal.Header>
+        <Modal.Content>
+          <ModalDiv>
+            <Input
+              type="text"
+              placeholder="username"
+              onChange={(evt) => {
+                setUsername(evt.target.value);
+              }}
+            />
+            <br />
+            <Input
+              type="password"
+              placeholder="password"
+              onChange={(evt) => {
+                setPassword(evt.target.value);
+              }}
+            />
+
+            {loginError && <Message color="red">
+              <Message.Header>Login Error</Message.Header>
+              <p>{loginError}</p>
+            </Message>}
+            {loading && <Message color="green">
+              <Message.Header>Credentials Found</Message.Header>
+              <p>Logging In ...</p>
+            </Message>}
+          </ModalDiv>
+        </Modal.Content>
+        <Modal.Actions>
           <Button
             onClick={() => {
               login({
@@ -66,12 +81,11 @@ const Login = () => {
                   setLoginError(err.message.toString());
                 });
             }}
+            disabled={loading}
           >
             Login
           </Button>
-          {loginError && <p>Login Error: {loginError}</p>}
-          {loading && <p>Logging In ...</p>}
-        </ModalDiv>
+        </Modal.Actions>
       </Modal>
     </>
   );
