@@ -77,7 +77,7 @@ const Goals = () => {
               <strong>Total Income</strong>
             </NetIncomeText>
             <NetIncomeText>
-              {formatMoneyString(totalIncome.toFixed(2))}
+              {formatMoneyString(totalIncome?.toFixed(2))}
             </NetIncomeText>
           </NetIncomeRow>
           <NetIncomeRow>
@@ -85,7 +85,7 @@ const Goals = () => {
               <strong>Total Expenses</strong>
             </NetIncomeText>
             <NetIncomeText>
-              {formatMoneyString(totalExpenses.toFixed(2))}
+              {formatMoneyString(totalExpenses?.toFixed(2))}
             </NetIncomeText>
           </NetIncomeRow>
           <NetIncomeRow>
@@ -93,7 +93,7 @@ const Goals = () => {
               <strong>Total Net Income</strong>
             </NetIncomeText>
             <NetIncomeText>
-              {formatMoneyString(totalNetIncome.toFixed(2))}
+              {formatMoneyString(totalNetIncome?.toFixed(2))}
             </NetIncomeText>
           </NetIncomeRow>
         </NetIncomeDiv>

@@ -46,6 +46,7 @@ const Navbar = ({ themes, setTheme, currentTheme }) => {
       text: "Logout",
       onClick: () => {
         window.localStorage.removeItem("authorization");
+        navigate("/");
         window.location.reload();
       },
     },

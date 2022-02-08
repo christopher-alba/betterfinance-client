@@ -5,6 +5,7 @@ import { LOGIN } from "../../../graphql/mutations";
 import { Button, Icon, Input, Message, Modal } from "semantic-ui-react";
 
 import { ModalDiv, LoginButton } from "./styled";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -16,7 +17,7 @@ const Login = () => {
   const handleClose = () => setOpen(false);
 
   const [login, { loading }] = useMutation(LOGIN);
-
+  const navigate = useNavigate();
   return (
     <>
       <LoginButton
@@ -75,6 +76,7 @@ const Login = () => {
               })
                 .then((res) => {
                   localStorage.setItem("authorization", res.data.login.token);
+                  navigate("/");
                   window.location.reload();
                 })
                 .catch((err) => {

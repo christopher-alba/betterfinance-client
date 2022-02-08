@@ -126,22 +126,25 @@ export const standardizeMoney = (moneyArray, selectedFrequency) => {
 };
 
 export const formatMoneyString = (money) => {
-  let moneyString = money.toString();
-  let moneyStringSplit = moneyString.split(".");
-  // add commas
-  moneyStringSplit[0] = moneyStringSplit[0].replace(
-    /\B(?=(\d{3})+(?!\d))/g,
-    ","
-  );
-  moneyString = moneyStringSplit.join(".");
-  // add dollar sign
-  moneyString = "$" + moneyString;
-  // move negative sign infront of dollar sign
-  if (moneyString[1] === "-") {
-    let stringArray = moneyString.split("");
-    stringArray[0] = "-";
-    stringArray[1] = "$";
-    moneyString = stringArray.join("");
+  let moneyString = money?.toString();
+  if (moneyString !== undefined) {
+    let moneyStringSplit = moneyString.split(".");
+    // add commas
+    moneyStringSplit[0] = moneyStringSplit[0].replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ","
+    );
+    moneyString = moneyStringSplit.join(".");
+    // add dollar sign
+    moneyString = "$" + moneyString;
+    // move negative sign infront of dollar sign
+    if (moneyString[1] === "-") {
+      let stringArray = moneyString.split("");
+      stringArray[0] = "-";
+      stringArray[1] = "$";
+      moneyString = stringArray.join("");
+    }
+    return moneyString;
   }
-  return moneyString;
+
 };
