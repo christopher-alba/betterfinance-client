@@ -14,10 +14,14 @@ const Login = () => {
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setLoginError(undefined);
+  };
 
-  const [login, { loading }] = useMutation(LOGIN);
+  const [login, { data, loading }] = useMutation(LOGIN);
   const navigate = useNavigate();
+
   return (
     <>
       <LoginButton
@@ -55,19 +59,30 @@ const Login = () => {
               }}
             />
 
-            {loginError && <Message color="red">
-              <Message.Header>Login Error</Message.Header>
-              <p>{loginError}</p>
-            </Message>}
-            {loading && <Message color="green">
-              <Message.Header>Credentials Found</Message.Header>
-              <p>Logging In ...</p>
-            </Message>}
+            {loginError && (
+              <Message color="red">
+                <Message.Header>Login Error</Message.Header>
+                <p>{loginError}</p>
+              </Message>
+            )}
+            {loading && (
+              <Message color="blue">
+                <Message.Header>Searching Credentials</Message.Header>
+                <p>Logging In ...</p>
+              </Message>
+            )}
+            {data && (
+              <Message color="green">
+                <Message.Header>Credentials Found</Message.Header>
+                <p>Logged In</p>
+              </Message>
+            )}
           </ModalDiv>
         </Modal.Content>
         <Modal.Actions>
           <Button
             onClick={() => {
+              setLoginError(undefined);
               login({
                 variables: {
                   username,
