@@ -33,7 +33,7 @@ const Goals = () => {
     },
   });
 
-  const [selectedFrequency] = useState("Yearly");
+  const [selectedFrequency, setSelectedFrequency] = useState("Yearly");
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [totalNetIncome, setTotalNetIncome] = useState(0);
@@ -69,7 +69,14 @@ const Goals = () => {
         <NetIncomeDiv>
           <NetIncomeRow>
             <NetIncomeHeading>Net Income Details</NetIncomeHeading>
-            <Select options={frequencyOptions} placeholder="Frequency" />
+            <Select
+              options={frequencyOptions}
+              placeholder="Frequency"
+              defaultValue="Yearly"
+              onChange={(evt, data) => {
+                setSelectedFrequency(data.value);
+              }}
+            />
           </NetIncomeRow>
           <hr />
           <NetIncomeRow>
