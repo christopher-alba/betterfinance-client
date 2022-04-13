@@ -24,6 +24,21 @@ export const NetIncomeHeading = styled("h1")`
 
 export const NetIncomeText = styled("p")`
   margin: 0;
+  color: ${({ color, theme }) => {
+    if (theme.name === "light") {
+      if (color === "red") {
+        return "red";
+      } else if (color === "green") {
+        return "green";
+      }
+    } else {
+      if (color === "red") {
+        return "red";
+      } else if (color === "green") {
+        return "lightgreen";
+      }
+    }
+  }};
 `;
 
 export const ChartDiv = styled("div")`
