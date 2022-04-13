@@ -99,7 +99,7 @@ const Goals = () => {
             <NetIncomeText>
               <strong>Total Net Income</strong>
             </NetIncomeText>
-            <NetIncomeText color={totalExpenses > 0 ? "green" : "red"}>
+            <NetIncomeText color={totalNetIncome > 0 ? "green" : "red"}>
               {formatMoneyString(totalNetIncome?.toFixed(2))}
             </NetIncomeText>
           </NetIncomeRow>
