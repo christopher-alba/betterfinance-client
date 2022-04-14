@@ -61,3 +61,25 @@ export const DELETEEXPENSE = gql`
     deleteExpense(expenseID: $expenseID)
   }
 `;
+
+export const CREATEGOAL = gql`
+  mutation CreateGoal($goal: createGoalArgs!) {
+    createGoal(goal: $goal) {
+      _id
+    }
+  }
+`;
+
+export const UPDATEGOAL = gql`
+  mutation UpdateGoal($goalObj: updateGoalArgs!, $goalID: String!) {
+    updateGoal(goalObj: $goalObj, goalID: $goalID) {
+      _id
+    }
+  }
+`;
+
+export const DELETEGOAL = gql`
+  mutation DeleteGoal($goalID: String!) {
+    deleteGoal(goalID: $goalID)
+  }
+`;
