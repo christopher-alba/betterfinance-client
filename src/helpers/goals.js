@@ -22,11 +22,11 @@ export const calculateCompletionDate = (
     );
   } else if (contributionFrequency === "Monthly") {
     completionDate = new Date(
-      Date.now() + timeToComplete * 30.5 * 24 * 60 * 60 * 1000
+      Date.now() + Math.ceil(timeToComplete * 30.5 * 24 * 60 * 60 * 1000)
     );
   } else {
     completionDate = new Date(
-      Date.now() + timeToComplete * 12 * 30.5 * 24 * 60 * 60 * 1000
+      Date.now() + Math.ceil(timeToComplete * 12 * 30.5 * 24 * 60 * 60 * 1000)
     );
   }
 
