@@ -5,7 +5,10 @@ export const calculateCompletionDate = (
   currentAmount
 ) => {
   const amountRemaining = targetAmount - currentAmount;
-  const timeToComplete = amountRemaining / contributionAmount;
+  let timeToComplete = amountRemaining / contributionAmount;
+  if (timeToComplete < 1) {
+    timeToComplete = 1;
+  }
   let completionDate;
   if (contributionFrequency === "Daily") {
     completionDate = new Date(
