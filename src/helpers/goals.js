@@ -27,6 +27,9 @@ export const calculateCompletionDate = (
       Date.now() + timeToComplete * 12 * 30.5 * 24 * 60 * 60 * 1000
     );
   }
+  if (amountRemaining <= 0) {
+    return "Goal Reached";
+  }
   return String(
     completionDate.toLocaleDateString(undefined, {
       weekday: "long",
