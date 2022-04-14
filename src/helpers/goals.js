@@ -5,10 +5,12 @@ export const calculateCompletionDate = (
   currentAmount
 ) => {
   const amountRemaining = targetAmount - currentAmount;
-  let timeToComplete = amountRemaining / contributionAmount;
-  if (timeToComplete < 1) {
-    timeToComplete = 1;
+  if (amountRemaining <= 0) {
+    return "Goal Reached";
   }
+
+  let timeToComplete = Math.ceil(amountRemaining / contributionAmount);
+
   let completionDate;
   if (contributionFrequency === "Daily") {
     completionDate = new Date(
@@ -27,9 +29,7 @@ export const calculateCompletionDate = (
       Date.now() + timeToComplete * 12 * 30.5 * 24 * 60 * 60 * 1000
     );
   }
-  if (amountRemaining <= 0) {
-    return "Goal Reached";
-  }
+
   return String(
     completionDate.toLocaleDateString(undefined, {
       weekday: "long",
