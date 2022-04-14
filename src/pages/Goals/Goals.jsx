@@ -135,9 +135,15 @@ const Goals = () => {
                     <Checkbox toggle />
                   </Table.Cell>
                   <Table.Cell>{goal.name}</Table.Cell>
-                  <Table.Cell>{goal.targetAmount}</Table.Cell>
-                  <Table.Cell>{goal.currentAmount}</Table.Cell>
-                  <Table.Cell>{goal.contributionAmount}</Table.Cell>
+                  <Table.Cell>
+                    {formatMoneyString(goal.targetAmount.toFixed(2))}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {formatMoneyString(goal.currentAmount.toFixed(2))}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {formatMoneyString(goal.contributionAmount.toFixed(2))}
+                  </Table.Cell>
                   <Table.Cell>{goal.contributionFrequency}</Table.Cell>
                   <Table.Cell>
                     {formatDateString(goal.completionDate)}
