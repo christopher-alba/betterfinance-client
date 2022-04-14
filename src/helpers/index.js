@@ -146,5 +146,15 @@ export const formatMoneyString = (money) => {
     }
     return moneyString;
   }
+};
 
+export const formatDateString = (dateString) => {
+  return String(
+    new Date(parseInt(dateString)).toLocaleDateString(undefined, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  );
 };

@@ -36,10 +36,25 @@ export const EXPENSES = gql`
   }
 `;
 
-
 export const PROFILEID = gql`
   query GetUserProfileID($userID: ID!) {
     getProfile(userID: $userID) {
+      _id
+    }
+  }
+`;
+
+export const GOALS = gql`
+  query GetUserGoals($profileID: ID!) {
+    getAllUserGoals(profileID: $profileID) {
+      name
+      targetAmount
+      currentAmount
+      completionDate
+      contributionAmount
+      contributionFrequency
+      active
+      profileID
       _id
     }
   }

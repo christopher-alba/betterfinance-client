@@ -8,11 +8,16 @@ import {
 } from "./styled";
 import { Container } from "../../components/Container";
 import { Title } from "../../components/Title";
-import { EXPENSES, INCOMES } from "../../graphql/queries";
+import { EXPENSES, GOALS, INCOMES } from "../../graphql/queries";
 import { useQuery } from "@apollo/client";
 import Loading from "../../components/Loading";
-import { Select } from "semantic-ui-react";
-import { formatMoneyString, standardizeMoney } from "../../helpers";
+import { Button, Checkbox, Icon, Table, Select } from "semantic-ui-react";
+import {
+  formatDateString,
+  formatMoneyString,
+  standardizeMoney,
+} from "../../helpers";
+import { calculateCompletionDate } from "../../helpers/goals";
 
 const frequencyOptions = [
   { key: "Daily", value: "Daily", text: "Daily" },
@@ -28,6 +33,11 @@ const Goals = () => {
     },
   });
   const { loading: expensesLoading, data: expensesData } = useQuery(EXPENSES, {
+    variables: {
+      profileID,
+    },
+  });
+  const { loading: goalsLoading, data: goalsData } = useQuery(GOALS, {
     variables: {
       profileID,
     },
@@ -58,7 +68,7 @@ const Goals = () => {
     setTotalNetIncome(totalIncome - totalExpenses);
   }, [totalIncome, totalExpenses]);
 
-  if (incomesLoading || expensesLoading) {
+  if (incomesLoading || expensesLoading || goalsLoading) {
     return <Loading message="Loading the goals page..." />;
   }
 
@@ -104,6 +114,67 @@ const Goals = () => {
             </NetIncomeText>
           </NetIncomeRow>
         </NetIncomeDiv>
+        <Table compact celled>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Active</Table.HeaderCell>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Target Amount</Table.HeaderCell>
+              <Table.HeaderCell>Current Amount</Table.HeaderCell>
+              <Table.HeaderCell>Contribution Amount</Table.HeaderCell>
+              <Table.HeaderCell>Contribution Frequency</Table.HeaderCell>
+              <Table.HeaderCell>Target Completion Date</Table.HeaderCell>
+              <Table.HeaderCell>Estimated Completion Date</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {goalsData.getAllUserGoals.map((goal) => {
+              return (
+                <Table.Row key={goal._id}>
+                  <Table.Cell collapsing>
+                    <Checkbox toggle />
+                  </Table.Cell>
+                  <Table.Cell>{goal.name}</Table.Cell>
+                  <Table.Cell>{goal.targetAmount}</Table.Cell>
+                  <Table.Cell>{goal.currentAmount}</Table.Cell>
+                  <Table.Cell>{goal.contributionAmount}</Table.Cell>
+                  <Table.Cell>{goal.contributionFrequency}</Table.Cell>
+                  <Table.Cell>
+                    {formatDateString(goal.completionDate)}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {calculateCompletionDate(
+                      goal.contributionAmount,
+                      goal.contributionFrequency,
+                      goal.targetAmount,
+                      goal.currentAmount
+                    )}
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+
+          <Table.Footer fullWidth>
+            <Table.Row>
+              <Table.HeaderCell colSpan="8">
+                <Button
+                  floated="right"
+                  icon
+                  labelPosition="left"
+                  primary
+                  size="small"
+                >
+                  <Icon name="user" /> Add User
+                </Button>
+                <Button size="small">Approve</Button>
+                <Button disabled size="small">
+                  Approve All
+                </Button>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        </Table>
       </Container>
     </MainDiv>
   );
