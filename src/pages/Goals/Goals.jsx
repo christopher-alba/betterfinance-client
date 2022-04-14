@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   MainDiv,
   NetIncomeDiv,
@@ -6,6 +6,7 @@ import {
   NetIncomeRow,
   NetIncomeText,
 } from "./styled";
+import { ThemeContext } from "styled-components";
 import { Container } from "../../components/Container";
 import { Title } from "../../components/Title";
 import { EXPENSES, GOALS, INCOMES } from "../../graphql/queries";
@@ -26,6 +27,7 @@ const frequencyOptions = [
   { key: "Yearly", value: "Yearly", text: "Yearly" },
 ];
 const Goals = () => {
+  const themeContext = useContext(ThemeContext);
   const profileID = localStorage.getItem("profileID");
   const { loading: incomesLoading, data: incomesData } = useQuery(INCOMES, {
     variables: {
@@ -47,6 +49,7 @@ const Goals = () => {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [totalNetIncome, setTotalNetIncome] = useState(0);
+  const [selectedGoal, setSelectedGoal] = useState(undefined);
 
   useEffect(() => {
     setTotalIncome(
@@ -114,7 +117,7 @@ const Goals = () => {
             </NetIncomeText>
           </NetIncomeRow>
         </NetIncomeDiv>
-        <Table compact celled>
+        <Table compact celled inverted={themeContext.name === "dark"}>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Active</Table.HeaderCell>
@@ -130,9 +133,13 @@ const Goals = () => {
           <Table.Body>
             {goalsData.getAllUserGoals.map((goal) => {
               return (
-                <Table.Row key={goal._id}>
+                <Table.Row
+                  key={goal._id}
+                  active={goal._id === selectedGoal?._id}
+                  onClick={() => setSelectedGoal(goal)}
+                >
                   <Table.Cell collapsing>
-                    <Checkbox toggle />
+                    <Checkbox toggle checked={goal.active} />
                   </Table.Cell>
                   <Table.Cell>{goal.name}</Table.Cell>
                   <Table.Cell>
@@ -168,15 +175,27 @@ const Goals = () => {
                   floated="right"
                   icon
                   labelPosition="left"
-                  primary
+                  color="green"
                   size="small"
                 >
-                  <Icon name="user" /> Add User
+                  <Icon name="add" /> Add Goal
                 </Button>
-                <Button size="small">Approve</Button>
-                <Button disabled size="small">
-                  Approve All
-                </Button>
+                {selectedGoal && (
+                  <>
+                    <Button
+                      size="small"
+                      onClick={() => setSelectedGoal(undefined)}
+                    >
+                      Deselect Goal
+                    </Button>
+                    <Button size="small" primary>
+                      Update Goal
+                    </Button>
+                    <Button size="small" color="red">
+                      Delete Goal
+                    </Button>
+                  </>
+                )}
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
