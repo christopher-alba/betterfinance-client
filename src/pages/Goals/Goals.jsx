@@ -12,13 +12,14 @@ import { Title } from "../../components/Title";
 import { EXPENSES, GOALS, INCOMES } from "../../graphql/queries";
 import { useQuery } from "@apollo/client";
 import Loading from "../../components/Loading";
-import { Button, Checkbox, Icon, Table, Select } from "semantic-ui-react";
+import { Button, Checkbox, Table, Select } from "semantic-ui-react";
 import {
   formatDateString,
   formatMoneyString,
   standardizeMoney,
 } from "../../helpers";
 import { calculateCompletionDate } from "../../helpers/goals";
+import CreateGoalModal from "./CreateGoalModal";
 
 const frequencyOptions = [
   { key: "Daily", value: "Daily", text: "Daily" },
@@ -171,15 +172,7 @@ const Goals = () => {
           <Table.Footer fullWidth>
             <Table.Row>
               <Table.HeaderCell colSpan="8">
-                <Button
-                  floated="right"
-                  icon
-                  labelPosition="left"
-                  color="green"
-                  size="small"
-                >
-                  <Icon name="add" /> Add Goal
-                </Button>
+                <CreateGoalModal profileID={profileID} />
                 {selectedGoal && (
                   <>
                     <Button
