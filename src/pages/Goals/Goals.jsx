@@ -20,6 +20,7 @@ import {
 } from "../../helpers";
 import { calculateCompletionDate } from "../../helpers/goals";
 import CreateGoalModal from "./CreateGoalModal";
+import UpdateGoalModal from "./UpdateGoalModal";
 
 const frequencyOptions = [
   { key: "Daily", value: "Daily", text: "Daily" },
@@ -181,9 +182,7 @@ const Goals = () => {
                     >
                       Deselect Goal
                     </Button>
-                    <Button size="small" primary>
-                      Update Goal
-                    </Button>
+                    <UpdateGoalModal goalObj={selectedGoal} />
                     <Button size="small" color="red">
                       Delete Goal
                     </Button>

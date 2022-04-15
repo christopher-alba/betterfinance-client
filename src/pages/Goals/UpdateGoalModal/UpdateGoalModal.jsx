@@ -3,14 +3,13 @@ import React, { useState } from "react";
 import {
   Button,
   Form,
-  Icon,
   Input,
   Label,
   Message,
   Modal,
   Select,
 } from "semantic-ui-react";
-import { CREATEGOAL } from "../../../graphql/mutations";
+import { UPDATEGOAL } from "../../../graphql/mutations";
 import { GOALS } from "../../../graphql/queries";
 import { MainDiv } from "./styled";
 
@@ -21,15 +20,21 @@ const frequencyOptions = [
   { key: "Yearly", value: "Yearly", text: "Yearly" },
 ];
 
-const CreateGoalModal = ({ profileID }) => {
+const UpdateGoalModal = ({ goalObj }) => {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState(undefined);
+  const [name, setName] = useState(goalObj.name);
   const [nameMaxLengthReached, setNameMaxLengthReached] = useState(false);
-  const [targetAmount, setTargetAmount] = useState(undefined);
-  const [currentAmount, setCurrentAmount] = useState(undefined);
-  const [contributionAmount, setContributionAmount] = useState(undefined);
-  const [contributionFrequency, setContributionFrequency] = useState(undefined);
-  const [targetCompletionDate, setTargetCompletionDate] = useState(undefined);
+  const [targetAmount, setTargetAmount] = useState(goalObj.targetAmount);
+  const [currentAmount, setCurrentAmount] = useState(goalObj.currentAmount);
+  const [contributionAmount, setContributionAmount] = useState(
+    goalObj.contributionAmount
+  );
+  const [contributionFrequency, setContributionFrequency] = useState(
+    goalObj.contributionFrequency
+  );
+  const [targetCompletionDate, setTargetCompletionDate] = useState(
+    goalObj.completionDate
+  );
 
   const [nameError, setNameError] = useState(false);
   const [targetAmountError, setTargetAmountError] = useState(false);
@@ -48,18 +53,21 @@ const CreateGoalModal = ({ profileID }) => {
 
   const [displayErrorMessage, setDisplayErrorMessage] = useState(false);
 
-  const [createGoal, { loading }] = useMutation(CREATEGOAL);
+  const [updateGoal, { loading }] = useMutation(UPDATEGOAL);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setName(goalObj.name);
+    setTargetAmount(goalObj.targetAmount);
+    setCurrentAmount(goalObj.currentAmount);
+    setContributionAmount(goalObj.contributionAmount);
+    setContributionFrequency(goalObj.contributionFrequency);
+    setTargetCompletionDate(goalObj.completionDate);
+    setOpen(true);
+  };
   const handleClose = () => {
     setDisplayErrorMessage(false);
     setName(undefined);
     setNameMaxLengthReached(false);
-    setTargetAmount(undefined);
-    setCurrentAmount(undefined);
-    setContributionAmount(undefined);
-    setContributionFrequency(undefined);
-    setTargetCompletionDate(undefined);
     setNameError(false);
     setTargetAmountError(false);
     setCurrentAmountError(false);
@@ -72,17 +80,11 @@ const CreateGoalModal = ({ profileID }) => {
     setTargetCompletionDateInvalid(false);
     setOpen(false);
   };
+
   return (
     <>
-      <Button
-        floated="right"
-        icon
-        labelPosition="left"
-        color="green"
-        size="small"
-        onClick={handleOpen}
-      >
-        <Icon name="plus" /> Add Goal
+      <Button color="blue" size="small" onClick={handleOpen}>
+        Update Goal
       </Button>
       <Modal
         open={open}
@@ -90,7 +92,7 @@ const CreateGoalModal = ({ profileID }) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Modal.Header>Add an Goal</Modal.Header>
+        <Modal.Header>Update a Goal</Modal.Header>
         <Modal.Content>
           <MainDiv>
             <Form>
@@ -98,6 +100,7 @@ const CreateGoalModal = ({ profileID }) => {
                 <Input
                   placeholder="name"
                   maxLength="30"
+                  defaultValue={goalObj.name}
                   onChange={(evt, data) => {
                     setName(data.value);
                     setNameError(false);
@@ -124,6 +127,7 @@ const CreateGoalModal = ({ profileID }) => {
                   placeholder="target amount ($)"
                   type="number"
                   min="0"
+                  defaultValue={goalObj.targetAmount}
                   onChange={(evt, data) => {
                     setTargetAmount(data.value);
                     setTargetAmountError(false);
@@ -153,6 +157,7 @@ const CreateGoalModal = ({ profileID }) => {
               <Form.Field>
                 <Input
                   placeholder="current amount ($)"
+                  defaultValue={goalObj.currentAmount}
                   type="number"
                   min="0"
                   onChange={(evt, data) => {
@@ -185,6 +190,7 @@ const CreateGoalModal = ({ profileID }) => {
                 <Input
                   placeholder="contribution amount ($)"
                   type="number"
+                  defaultValue={goalObj.contributionAmount}
                   min="0"
                   onChange={(evt, data) => {
                     setContributionAmount(data.value);
@@ -215,6 +221,7 @@ const CreateGoalModal = ({ profileID }) => {
               <Form.Field>
                 <Select
                   placeholder="frequency"
+                  defaultValue={goalObj.contributionFrequency}
                   options={frequencyOptions}
                   onChange={(evt, data) => {
                     setContributionFrequency(data.value);
@@ -230,6 +237,11 @@ const CreateGoalModal = ({ profileID }) => {
               <Form.Field>
                 <Input
                   type="date"
+                  defaultValue={
+                    new Date(parseInt(goalObj.completionDate))
+                      .toISOString()
+                      .split("T")[0]
+                  }
                   min={
                     new Date(Date.now() + 1000 * 60 * 60 * 24 * 2)
                       .toISOString()
@@ -271,17 +283,17 @@ const CreateGoalModal = ({ profileID }) => {
           <Button
             onClick={() => {
               setDisplayErrorMessage(false);
-              createGoal({
+              updateGoal({
                 variables: {
-                  goal: {
+                  goalObj: {
                     name,
                     targetAmount: parseFloat(targetAmount),
                     currentAmount: parseFloat(currentAmount),
                     contributionAmount: parseFloat(contributionAmount),
                     contributionFrequency,
                     completionDate: targetCompletionDate,
-                    profileID,
                   },
+                  goalID: goalObj._id,
                 },
                 refetchQueries: [GOALS],
               })
@@ -319,7 +331,7 @@ const CreateGoalModal = ({ profileID }) => {
             disabled={loading}
             loading={loading}
           >
-            Add Goal
+            Update Goal
           </Button>
         </Modal.Actions>
       </Modal>
@@ -327,4 +339,4 @@ const CreateGoalModal = ({ profileID }) => {
   );
 };
 
-export default CreateGoalModal;
+export default UpdateGoalModal;
