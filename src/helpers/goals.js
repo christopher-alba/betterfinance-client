@@ -51,8 +51,15 @@ export const calculateContributionAmount = (
   if (amountRemaining <= 0) {
     return "Goal Reached";
   }
-  let contributionAmount =
-    amountRemaining /
-    Math.ceil((parseInt(completionDate) - Date.now()) / (60 * 60 * 1000 * 24));
+  let daysRemaining = Math.ceil(
+    (parseInt(completionDate) - Date.now()) / (60 * 60 * 1000 * 24)
+  );
+  if (daysRemaining <= 0 && amountRemaining > 0) {
+    return "Target completion date reached, you need to select a later date to achieve this goal.";
+  } else if(daysRemaining <= 0){
+    return "Target completion date reached."
+  }
+  let contributionAmount = amountRemaining / daysRemaining;
+
   return formatMoneyString(contributionAmount.toFixed(2));
 };
