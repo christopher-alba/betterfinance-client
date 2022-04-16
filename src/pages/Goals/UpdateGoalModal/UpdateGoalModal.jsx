@@ -307,7 +307,7 @@ const UpdateGoalModal = ({ goalObj }) => {
                   if (!targetAmount) {
                     setTargetAmountError(true);
                   }
-                  if (!currentAmount) {
+                  if (currentAmount === undefined || currentAmount === null) {
                     setCurrentAmountError(true);
                   }
                   if (!contributionAmount) {

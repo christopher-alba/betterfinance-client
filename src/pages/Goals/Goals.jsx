@@ -10,7 +10,7 @@ import { ThemeContext } from "styled-components";
 import { Container } from "../../components/Container";
 import { Title } from "../../components/Title";
 import { EXPENSES, GOALS, INCOMES } from "../../graphql/queries";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Loading from "../../components/Loading";
 import { Button, Checkbox, Table, Select } from "semantic-ui-react";
 import {
@@ -18,9 +18,13 @@ import {
   formatMoneyString,
   standardizeMoney,
 } from "../../helpers";
-import { calculateCompletionDate } from "../../helpers/goals";
+import {
+  calculateCompletionDate,
+  calculateContributionAmount,
+} from "../../helpers/goals";
 import CreateGoalModal from "./CreateGoalModal";
 import UpdateGoalModal from "./UpdateGoalModal";
+import { DELETEGOAL } from "../../graphql/mutations";
 
 const frequencyOptions = [
   { key: "Daily", value: "Daily", text: "Daily" },
@@ -46,6 +50,8 @@ const Goals = () => {
       profileID,
     },
   });
+
+  const [deleteGoal, { loading: deleting }] = useMutation(DELETEGOAL);
 
   const [selectedFrequency, setSelectedFrequency] = useState("Yearly");
   const [totalIncome, setTotalIncome] = useState(0);
@@ -129,6 +135,9 @@ const Goals = () => {
               <Table.HeaderCell>Contribution Amount</Table.HeaderCell>
               <Table.HeaderCell>Contribution Frequency</Table.HeaderCell>
               <Table.HeaderCell>Target Completion Date</Table.HeaderCell>
+              <Table.HeaderCell>
+                Calculated Daily Contribution Amount
+              </Table.HeaderCell>
               <Table.HeaderCell>Estimated Completion Date</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -158,6 +167,13 @@ const Goals = () => {
                     {formatDateString(goal.completionDate)}
                   </Table.Cell>
                   <Table.Cell>
+                    {calculateContributionAmount(
+                      goal.currentAmount,
+                      goal.targetAmount,
+                      goal.completionDate
+                    )}
+                  </Table.Cell>
+                  <Table.Cell>
                     {calculateCompletionDate(
                       goal.contributionAmount,
                       goal.contributionFrequency,
@@ -172,7 +188,7 @@ const Goals = () => {
 
           <Table.Footer fullWidth>
             <Table.Row>
-              <Table.HeaderCell colSpan="8">
+              <Table.HeaderCell colSpan="9">
                 <CreateGoalModal profileID={profileID} />
                 {selectedGoal && (
                   <>
@@ -183,7 +199,22 @@ const Goals = () => {
                       Deselect Goal
                     </Button>
                     <UpdateGoalModal goalObj={selectedGoal} />
-                    <Button size="small" color="red">
+                    <Button
+                      size="small"
+                      color="red"
+                      loading={deleting}
+                      disabled={deleting}
+                      onClick={() => {
+                        deleteGoal({
+                          variables: {
+                            goalID: selectedGoal._id,
+                          },
+                          refetchQueries: [GOALS],
+                        }).then(() => {
+                          setSelectedGoal(undefined);
+                        });
+                      }}
+                    >
                       Delete Goal
                     </Button>
                   </>

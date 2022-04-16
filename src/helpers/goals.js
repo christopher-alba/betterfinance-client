@@ -1,3 +1,5 @@
+import { formatMoneyString } from ".";
+
 export const calculateCompletionDate = (
   contributionAmount,
   contributionFrequency,
@@ -38,4 +40,19 @@ export const calculateCompletionDate = (
       day: "numeric",
     })
   );
+};
+
+export const calculateContributionAmount = (
+  currentAmount,
+  targetAmount,
+  completionDate
+) => {
+  let amountRemaining = targetAmount - currentAmount;
+  if (amountRemaining <= 0) {
+    return "Goal Reached";
+  }
+  let contributionAmount =
+    amountRemaining /
+    Math.ceil((parseInt(completionDate) - Date.now()) / (60 * 60 * 1000 * 24));
+  return formatMoneyString(contributionAmount.toFixed(2));
 };
