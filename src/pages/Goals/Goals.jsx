@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
+  ChartDiv,
   MainDiv,
   NetIncomeDiv,
   NetIncomeHeading,
@@ -12,19 +13,12 @@ import { Title } from "../../components/Title";
 import { EXPENSES, GOALS, INCOMES } from "../../graphql/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import Loading from "../../components/Loading";
-import { Button, Checkbox, Table, Select } from "semantic-ui-react";
-import {
-  formatDateString,
-  formatMoneyString,
-  standardizeMoney,
-} from "../../helpers";
-import {
-  calculateCompletionDate,
-  calculateContributionAmount,
-} from "../../helpers/goals";
+import { Button, Table, Select } from "semantic-ui-react";
+import { formatMoneyString, standardizeMoney } from "../../helpers";
 import CreateGoalModal from "./CreateGoalModal";
 import UpdateGoalModal from "./UpdateGoalModal";
 import { DELETEGOAL } from "../../graphql/mutations";
+import GoalsTableRow from "./GoalsTableRow";
 
 const frequencyOptions = [
   { key: "Daily", value: "Daily", text: "Daily" },
@@ -144,44 +138,11 @@ const Goals = () => {
           <Table.Body>
             {goalsData.getAllUserGoals.map((goal) => {
               return (
-                <Table.Row
-                  key={goal._id}
-                  active={goal._id === selectedGoal?._id}
-                  onClick={() => setSelectedGoal(goal)}
-                >
-                  <Table.Cell collapsing>
-                    <Checkbox toggle checked={goal.active} />
-                  </Table.Cell>
-                  <Table.Cell>{goal.name}</Table.Cell>
-                  <Table.Cell>
-                    {formatMoneyString(goal.targetAmount.toFixed(2))}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {formatMoneyString(goal.currentAmount.toFixed(2))}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {formatMoneyString(goal.contributionAmount.toFixed(2))}
-                  </Table.Cell>
-                  <Table.Cell>{goal.contributionFrequency}</Table.Cell>
-                  <Table.Cell>
-                    {formatDateString(goal.completionDate)}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {calculateContributionAmount(
-                      goal.currentAmount,
-                      goal.targetAmount,
-                      goal.completionDate
-                    )}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {calculateCompletionDate(
-                      goal.contributionAmount,
-                      goal.contributionFrequency,
-                      goal.targetAmount,
-                      goal.currentAmount
-                    )}
-                  </Table.Cell>
-                </Table.Row>
+                <GoalsTableRow
+                  goal={goal}
+                  selectedGoal={selectedGoal}
+                  setSelectedGoal={setSelectedGoal}
+                />
               );
             })}
           </Table.Body>
@@ -223,6 +184,9 @@ const Goals = () => {
             </Table.Row>
           </Table.Footer>
         </Table>
+        <ChartDiv>
+          
+        </ChartDiv>
       </Container>
     </MainDiv>
   );
