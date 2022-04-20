@@ -56,6 +56,7 @@ const UpdateGoalModal = ({ goalObj }) => {
   const [updateGoal, { loading }] = useMutation(UPDATEGOAL);
 
   const handleOpen = () => {
+    console.log(goalObj);
     setName(goalObj.name);
     setTargetAmount(goalObj.targetAmount);
     setCurrentAmount(goalObj.currentAmount);
@@ -66,7 +67,6 @@ const UpdateGoalModal = ({ goalObj }) => {
   };
   const handleClose = () => {
     setDisplayErrorMessage(false);
-    setName(undefined);
     setNameMaxLengthReached(false);
     setNameError(false);
     setTargetAmountError(false);

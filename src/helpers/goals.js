@@ -56,10 +56,30 @@ export const calculateContributionAmount = (
   );
   if (daysRemaining <= 0 && amountRemaining > 0) {
     return "Target completion date reached, you need to select a later date to achieve this goal.";
-  } else if(daysRemaining <= 0){
-    return "Target completion date reached."
+  } else if (daysRemaining <= 0) {
+    return "Target completion date reached.";
   }
   let contributionAmount = amountRemaining / daysRemaining;
 
   return formatMoneyString(contributionAmount.toFixed(2));
+};
+
+export const getGoalsPercentageArray = (goals) => {
+  return goals.map((goal) => ({
+    name: goal.name,
+    amount:
+      goal.currentAmount / goal.targetAmount <= 1
+        ? ((goal.currentAmount / goal.targetAmount) * 100).toFixed(2)
+        : (100).toFixed(2),
+  }));
+};
+
+export const findLargestAmount = (chartData) => {
+  let largestNumber = 0;
+  for (let i = 0; i < chartData?.length; i++) {
+    if (largestNumber < parseFloat(chartData[i].amount)) {
+      largestNumber = chartData[i].amount;
+    }
+  }
+  return Math.floor(largestNumber * 1.3);
 };

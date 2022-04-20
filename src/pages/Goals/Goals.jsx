@@ -18,6 +18,7 @@ import CreateGoalModal from "./CreateGoalModal";
 import UpdateGoalModal from "./UpdateGoalModal";
 import { DELETEGOAL } from "../../graphql/mutations";
 import GoalsTableRow from "./GoalsTableRow";
+import GoalsVisualised from "./GoalsVisualised";
 
 const frequencyOptions = [
   { key: "Daily", value: "Daily", text: "Daily" },
@@ -71,6 +72,11 @@ const Goals = () => {
   useEffect(() => {
     setTotalNetIncome(totalIncome - totalExpenses);
   }, [totalIncome, totalExpenses]);
+  useEffect(() => {
+    setSelectedGoal(
+      goalsData?.getAllUserGoals.find((goal) => goal._id === selectedGoal?._id)
+    );
+  }, [goalsData, selectedGoal]);
 
   if (incomesLoading || expensesLoading || goalsLoading) {
     return <Loading message="Loading the goals page..." />;
@@ -183,6 +189,9 @@ const Goals = () => {
             </Table.Row>
           </Table.Footer>
         </Table>
+        <GoalsVisualised
+          goals={goalsData.getAllUserGoals.filter((goal) => goal.active)}
+        />
       </Container>
     </MainDiv>
   );
