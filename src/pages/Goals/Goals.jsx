@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
-  ChartDiv,
   MainDiv,
   NetIncomeDiv,
   NetIncomeHeading,
@@ -184,9 +183,6 @@ const Goals = () => {
             </Table.Row>
           </Table.Footer>
         </Table>
-        <ChartDiv>
-          
-        </ChartDiv>
       </Container>
     </MainDiv>
   );
